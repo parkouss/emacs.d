@@ -12,4 +12,6 @@
 
 (diminish 'company-mode " ⓐ")
 
+(diminish 'volatile-highlights-mode " V")
+
 (provide 'weemacs-diminish)
