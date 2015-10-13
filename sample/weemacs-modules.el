@@ -2,3 +2,5 @@
 
 ;; python
 (require 'weemacs-python)
+;; markdown
+(require 'weemacs-markdown)
