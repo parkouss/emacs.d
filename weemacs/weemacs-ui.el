@@ -20,6 +20,9 @@
       scroll-conservatively 100000
       scroll-preserve-screen-position 1)
 
+;; no bip
+(setq ring-bell-function 'ignore)
+
 ;; mode line settings
 (line-number-mode t)
 (column-number-mode t)
