@@ -47,6 +47,10 @@
 ;; enable the text completion framework
 (global-company-mode)
 
+;; ido support
+(require 'ido)
+(ido-mode t)
+
 ;; python edition
 ;; first Add company-anaconda to allowed company-mode backends list
 (eval-after-load "company"
