@@ -9,6 +9,9 @@
 ;; the blinking cursor is nothing, but an annoyance
 (blink-cursor-mode -1)
 
+;; scrollbar is useless
+(scroll-bar-mode -1)
+
 ;; disable startup screen
 (setq inhibit-startup-screen t)
 
@@ -42,6 +45,5 @@
 (require 'paren)
 (setq show-paren-style 'parenthesis)
 (show-paren-mode +1)
-
 
 (provide 'weemacs-ui)
