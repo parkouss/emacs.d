@@ -18,6 +18,7 @@
 
 ;; smart pairing for all
 (require 'smartparens-config)
+(smartparens-global-mode t)
 
 ;; saveplace remembers your location in a file when saving files
 (require 'saveplace)

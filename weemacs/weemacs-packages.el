@@ -26,6 +26,8 @@
     volatile-highlights
     ;; I like this theme
     spacemacs-theme
+    ;; highliht parens
+    highlight-parentheses
     ;; python completion
     anaconda-mode
     company-anaconda)

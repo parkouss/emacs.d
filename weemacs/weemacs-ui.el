@@ -32,4 +32,16 @@
 (setq sml/no-confirm-load-theme t)
 (add-hook 'after-init-hook #'sml/setup)
 
+;; highlight parens
+(require 'highlight-parentheses)
+(define-globalized-minor-mode global-highlight-parentheses-mode highlight-parentheses-mode
+  (lambda nil (highlight-parentheses-mode t)))
+
+(global-highlight-parentheses-mode t)
+
+(require 'paren)
+(setq show-paren-style 'parenthesis)
+(show-paren-mode +1)
+
+
 (provide 'weemacs-ui)
