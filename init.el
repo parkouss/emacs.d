@@ -2,8 +2,6 @@
   "The root dir of the weemacs (~/.emacs.d).")
 (defvar weemacs-core-dir (expand-file-name "weemacs" weemacs-dir)
   "The home of weemacs's core functionality.")
-(defvar weemacs-savefile-dir (expand-file-name "savefile" weemacs-dir)
-  "This folder stores all the automatically generated save/history-files.")
 
 ;; add weemacs's directories to Emacs's `load-path'
 (add-to-list 'load-path weemacs-core-dir)

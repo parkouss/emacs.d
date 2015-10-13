@@ -21,10 +21,9 @@
 (smartparens-global-mode t)
 
 ;; saveplace remembers your location in a file when saving files
-(require 'saveplace)
-(setq save-place-file (expand-file-name "saveplace" weemacs-savefile-dir))
 ;; activate it for all buffers
 (setq-default save-place t)
+(require 'saveplace)
 
 ;; highlight the current line
 (global-hl-line-mode +1)
