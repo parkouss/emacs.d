@@ -27,10 +27,7 @@
     ;; I like this theme
     spacemacs-theme
     ;; highliht parens
-    highlight-parentheses
-    ;; python completion
-    anaconda-mode
-    company-anaconda)
+    highlight-parentheses)
   "A list of packages to ensure are installed at launch.")
 
 
