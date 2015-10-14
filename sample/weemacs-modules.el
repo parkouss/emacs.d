@@ -6,3 +6,5 @@
 (require 'weemacs-markdown)
 ;; typescript
 ;; (require 'weemacs-typescript)
+;; javascript
+(require 'weemacs-javascript)
