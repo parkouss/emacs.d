@@ -4,3 +4,5 @@
 (require 'weemacs-python)
 ;; markdown
 (require 'weemacs-markdown)
+;; typescript
+;; (require 'weemacs-typescript)
