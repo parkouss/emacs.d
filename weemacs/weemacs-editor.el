@@ -39,9 +39,11 @@
 
 ;; flyspell-mode does spell-checking on the fly as you type
 (require 'flyspell)
-(setq ispell-program-name "aspell" ; use aspell instead of ispell
-      ispell-extra-args '("--sug-mode=ultra"))
-(flyspell-mode +1)
+(setq ispell-dictionary "english")
+(add-hook 'text-mode-hook (lambda () (flyspell-mode 1)))
+(add-hook 'prog-mode-hook (lambda () (flyspell-prog-mode)))
+(dolist (hook '(change-log-mode-hook log-edit-mode-hook))
+  (add-hook hook (lambda () (flyspell-mode -1))))
 
 ;; enable the text completion framework
 (global-company-mode)
