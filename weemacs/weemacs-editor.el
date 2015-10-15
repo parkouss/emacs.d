@@ -48,4 +48,8 @@
 ;; enable the text completion framework
 (global-company-mode)
 
+;; use shift + arrow keys to switch between visible buffers
+(require 'windmove)
+(windmove-default-keybindings)
+
 (provide 'weemacs-editor)
