@@ -4,6 +4,8 @@
   "The home of weemacs's core functionality.")
 (defvar weemacs-modules-dir (expand-file-name "modules" weemacs-dir)
   "Module dir of weemacs.")
+(defvar weemacs-savefile-dir (expand-file-name "savefile-dir" weemacs-dir)
+  "directory of weemacs where temp files are stored.")
 (defvar weemacs-modules-file (expand-file-name "weemacs-modules.el" weemacs-dir)
   "This files contains a list of modules that will be loaded by weemacs.")
 

@@ -4,3 +4,4 @@ melpa/
 places
 weemacs-modules.el
 erc-logs
+savefile-dir/

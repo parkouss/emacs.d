@@ -10,3 +10,5 @@
 (require 'weemacs-javascript)
 ;; erc
 (require 'weemacs-erc)
+;; ido
+(require 'weemacs-ido)

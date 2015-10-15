@@ -48,8 +48,4 @@
 ;; enable the text completion framework
 (global-company-mode)
 
-;; ido support
-(require 'ido)
-(ido-mode t)
-
 (provide 'weemacs-editor)
