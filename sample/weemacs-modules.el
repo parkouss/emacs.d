@@ -8,3 +8,5 @@
 ;; (require 'weemacs-typescript)
 ;; javascript
 (require 'weemacs-javascript)
+;; erc
+(require 'weemacs-erc)
