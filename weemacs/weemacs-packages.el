@@ -27,7 +27,10 @@
     ;; I like this theme
     spacemacs-theme
     ;; highliht parens
-    highlight-parentheses)
+    highlight-parentheses
+    ;; git porcelain
+    magit
+    )
   "A list of packages to ensure are installed at launch.")
 
 
