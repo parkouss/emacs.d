@@ -18,7 +18,7 @@
 
 ;; smart pairing for all
 (require 'smartparens-config)
-(smartparens-global-mode t)
+(add-hook 'prog-mode-hook 'smartparens-mode)
 
 ;; smarter kill-ring navigation (M-y)
 (require 'browse-kill-ring)
