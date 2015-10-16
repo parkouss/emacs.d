@@ -34,6 +34,8 @@
     discover-my-major
     ;; kill ring nice access
     browse-kill-ring
+    ;; project management
+    projectile
     )
   "A list of packages to ensure are installed at launch.")
 

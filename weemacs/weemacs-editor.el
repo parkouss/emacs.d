@@ -57,4 +57,9 @@
 (require 'windmove)
 (windmove-default-keybindings)
 
+;; projectile is a project management mode
+(require 'projectile)
+(setq projectile-cache-file (expand-file-name  "projectile.cache" weemacs-savefile-dir))
+(projectile-global-mode t)
+
 (provide 'weemacs-editor)
