@@ -30,6 +30,8 @@
     highlight-parentheses
     ;; git porcelain
     magit
+    ;; help to discover key bindings for major and minor modes
+    discover-my-major
     )
   "A list of packages to ensure are installed at launch.")
 
