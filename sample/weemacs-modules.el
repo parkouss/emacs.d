@@ -12,3 +12,5 @@
 (require 'weemacs-erc)
 ;; ido
 (require 'weemacs-ido)
+;; nice powerline
+(require 'weemacs-powerline)
