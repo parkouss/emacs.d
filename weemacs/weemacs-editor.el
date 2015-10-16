@@ -20,6 +20,10 @@
 (require 'smartparens-config)
 (smartparens-global-mode t)
 
+;; smarter kill-ring navigation (M-y)
+(require 'browse-kill-ring)
+(browse-kill-ring-default-keybindings)
+
 ;; saveplace remembers your location in a file when saving files
 ;; activate it for all buffers
 (setq-default save-place t)

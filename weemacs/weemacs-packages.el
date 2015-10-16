@@ -32,6 +32,8 @@
     magit
     ;; help to discover key bindings for major and minor modes
     discover-my-major
+    ;; kill ring nice access
+    browse-kill-ring
     )
   "A list of packages to ensure are installed at launch.")
 
