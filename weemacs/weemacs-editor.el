@@ -46,6 +46,7 @@
   (add-hook hook (lambda () (flyspell-mode -1))))
 
 ;; enable the text completion framework
+(setq company-dabbrev-downcase nil)  ;; try to respect case completion
 (global-company-mode)
 
 ;; use shift + arrow keys to switch between visible buffers
