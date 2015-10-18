@@ -2,6 +2,7 @@
 ;; python specific code
 (weemacs-require-package 'anaconda-mode)
 (weemacs-require-package 'company-anaconda)
+(weemacs-require-package 'pyvenv)
 
 ;; first Add company-anaconda to allowed company-mode backends list
 (eval-after-load "company"
