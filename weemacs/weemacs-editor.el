@@ -60,6 +60,7 @@
 ;; projectile is a project management mode
 (require 'projectile)
 (setq projectile-cache-file (expand-file-name  "projectile.cache" weemacs-savefile-dir))
+(setq projectile-use-git-grep 1)
 (projectile-global-mode t)
 
 (provide 'weemacs-editor)
