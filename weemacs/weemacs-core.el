@@ -17,4 +17,11 @@ PROMPT sets the `read-string prompt."
 
 (weemacs-install-search-engine "google"     "http://www.google.com/search?q="              "Google: ")
 
+(defun weemacs-occur-symbol-at-point ()
+   (interactive)
+   (let ((sym (thing-at-point 'symbol)))
+     (if sym
+        (push (regexp-quote sym) regexp-history)) ;regexp-history defvared in replace.el
+       (call-interactively 'occur)))
+
 (provide 'weemacs-core)

@@ -6,4 +6,6 @@
 (global-set-key (kbd "C-h C-m") 'discover-my-major)
 (global-set-key (kbd "C-h M-m") 'discover-my-mode)
 
+(global-set-key (kbd "M-s p") 'weemacs-occur-symbol-at-point)
+
 (provide 'weemacs-global-keybindings)
