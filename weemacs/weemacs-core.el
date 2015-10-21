@@ -10,12 +10,14 @@ PROMPT sets the `read-string prompt."
 
 (defmacro weemacs-install-search-engine (search-engine-name search-engine-url search-engine-prompt)
   "Given some information regarding a search engine, install the interactive command to search through them"
-  `(defun ,(intern (format "prelude-%s" search-engine-name)) ()
+  `(defun ,(intern (format "weemacs-%s" search-engine-name)) ()
        ,(format "Search %s with a query or region if any." search-engine-name)
        (interactive)
        (weemacs-search ,search-engine-url ,search-engine-prompt)))
 
-(weemacs-install-search-engine "google"     "http://www.google.com/search?q="              "Google: ")
+(weemacs-install-search-engine "google"  "http://www.google.com/search?q="                    "Google: ")
+(weemacs-install-search-engine "dxr"     "https://dxr.mozilla.org/mozilla-central/search?q="  "dxr: ")
+
 
 (defun weemacs-occur-symbol-at-point ()
    (interactive)
