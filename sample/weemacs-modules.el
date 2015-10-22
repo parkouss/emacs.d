@@ -14,3 +14,5 @@
 (require 'weemacs-ido)
 ;; nice powerline
 (require 'weemacs-powerline)
+;; org mode
+(require 'weemacs-org)
