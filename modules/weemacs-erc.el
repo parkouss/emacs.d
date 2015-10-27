@@ -1,5 +1,30 @@
 (require 'erc)
 
+(require 'erc-services)
+(erc-services-mode 1) ;; enable nickserv
+
+(let ((pass-file (expand-file-name ".ercpass" weemacs-dir)))
+  (if (file-exists-p pass-file)
+      (progn
+        ;; allow automatic nickserv on mozilla.org
+        (add-to-list 'erc-nickserv-alist
+                     '(Mozilla  ;; network name
+                       "NickServ!services@ircservices.mozilla.org" ;; NickServ user
+                       "This nickname is registered and protected\\.  If it is your" ;; first line sent by NickServ
+                       "NickServ" ;; the one to answer to
+                       "IDENTIFY" ;; keyword to send
+                       nil ;; use current nick
+                       ))
+        ;; don't prompt, take from the pass file
+        (setq erc-prompt-for-nickserv-password nil)
+        (load pass-file)
+        (setq erc-nickserv-passwords
+              `((Mozilla (("parkouss" . ,mozilla-parkouss-pass)
+                          ("parkouss|afk" . ,mozilla-parkouss-pass)))))
+       )))
+
+(setq erc-user-full-name "Julien Pagès")
+
 ;; enable flyspell on every erc buffer
 (erc-spelling-mode 1)
 
