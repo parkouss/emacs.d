@@ -63,4 +63,9 @@
 (setq projectile-use-git-grep 1)
 (projectile-global-mode t)
 
+;; allow narrowing to focus on part of the buffer
+;; C-x n n to narrow down selection
+;; C-x n w to see the whole buffer again
+(put 'narrow-to-region 'disabled nil)
+
 (provide 'weemacs-editor)
