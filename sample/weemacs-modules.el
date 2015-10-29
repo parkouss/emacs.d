@@ -16,3 +16,5 @@
 (require 'weemacs-powerline)
 ;; org mode
 (require 'weemacs-org)
+;; interface to pastebin
+(require 'weemacs-pastebin)
