@@ -68,4 +68,7 @@
 ;; C-x n w to see the whole buffer again
 (put 'narrow-to-region 'disabled nil)
 
+;; undo and redo changes in the window configuration
+(winner-mode 1)
+
 (provide 'weemacs-editor)
