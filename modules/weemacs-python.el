@@ -14,7 +14,9 @@
             (local-set-key "\C-cd" 'pytest-directory)
             (local-set-key "\C-cpa" 'pytest-pdb-all)
             (local-set-key "\C-cpm" 'pytest-pdb-module)
-            (local-set-key "\C-cp." 'pytest-pdb-one)))
+            (local-set-key "\C-cp." 'pytest-pdb-one)
+            (setq-local fill-column 79)
+            (turn-on-auto-fill)))
 
 ;; first Add company-anaconda to allowed company-mode backends list
 (eval-after-load "company"
