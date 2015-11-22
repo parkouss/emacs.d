@@ -18,3 +18,5 @@
 (require 'weemacs-org)
 ;; interface to pastebin
 (require 'weemacs-pastebin)
+;; mail reader
+(require 'weemacs-gnus)
