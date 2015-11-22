@@ -9,4 +9,7 @@
 
 (global-set-key (kbd "M-s p") 'weemacs-occur-symbol-at-point)
 
+(global-set-key (kbd "C-c m") 'weemacs-point-to-register)
+(global-set-key (kbd "C-c j") 'weemacs-jump-to-register)
+
 (provide 'weemacs-global-keybindings)

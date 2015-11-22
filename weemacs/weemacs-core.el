@@ -26,4 +26,12 @@ PROMPT sets the `read-string prompt."
         (push (regexp-quote sym) regexp-history)) ;regexp-history defvared in replace.el
        (call-interactively 'occur)))
 
+(defun weemacs-point-to-register ()
+  (interactive)
+  (point-to-register 1))
+
+(defun weemacs-jump-to-register ()
+  (interactive)
+  (jump-to-register 1))
+
 (provide 'weemacs-core)
