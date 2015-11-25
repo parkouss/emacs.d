@@ -22,3 +22,5 @@
 (require 'weemacs-gnus)
 ;; snippets
 (require 'weemacs-yasnippet)
+;; expand region
+(require 'weemacs-expand-region)
