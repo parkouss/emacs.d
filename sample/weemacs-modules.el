@@ -20,3 +20,5 @@
 (require 'weemacs-pastebin)
 ;; mail reader
 (require 'weemacs-gnus)
+;; snippets
+(require 'weemacs-yasnippet)
