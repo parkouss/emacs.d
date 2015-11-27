@@ -9,7 +9,7 @@
 (add-hook 'python-mode-hook
           (lambda ()
             (local-set-key "\C-ca" 'pytest-all)
-            (local-set-key "\C-cm" 'pytest-module)
+            (local-set-key "\C-cf" 'pytest-module)
             (local-set-key "\C-c." 'pytest-one)
             (local-set-key "\C-cd" 'pytest-directory)
             (local-set-key "\C-cpa" 'pytest-pdb-all)

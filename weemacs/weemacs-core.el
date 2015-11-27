@@ -28,7 +28,8 @@ PROMPT sets the `read-string prompt."
 
 (defun weemacs-point-to-register ()
   (interactive)
-  (point-to-register 1))
+  (point-to-register 1)
+  (message "position saved."))
 
 (defun weemacs-jump-to-register ()
   (interactive)
