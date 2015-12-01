@@ -14,4 +14,12 @@
 (bbdb-initialize 'gnus 'message 'sendmail)
 (add-hook 'gnus-startup-hook 'bbdb-insinuate-gnus)
 
+(defun gnus-grace-exit-before-kill-emacs ()
+  (if (and (fboundp 'gnus-alive-p)
+           (gnus-alive-p))
+      (let ((noninteractive t))
+        (gnus-group-exit))))
+
+(add-hook 'kill-emacs-hook 'gnus-grace-exit-before-kill-emacs)
+
 (provide 'weemacs-gnus)
