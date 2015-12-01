@@ -12,4 +12,6 @@
 (global-set-key (kbd "C-c m") 'weemacs-point-to-register)
 (global-set-key (kbd "C-c j") 'weemacs-jump-to-register)
 
+(global-set-key (kbd "C-c r")  'rename-file-and-buffer)
+
 (provide 'weemacs-global-keybindings)
