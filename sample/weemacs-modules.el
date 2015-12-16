@@ -24,3 +24,5 @@
 (require 'weemacs-yasnippet)
 ;; expand region
 (require 'weemacs-expand-region)
+;; rust support
+;; (require 'weemacs-rust)
