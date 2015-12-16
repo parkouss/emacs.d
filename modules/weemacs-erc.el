@@ -38,11 +38,31 @@
   (save-some-buffers t (lambda () (when (and (eq major-mode 'erc-mode)
                                              (not (null buffer-file-name)))))))
 
+;; switch afk nick
+(defun erc-switch-afk-command (nick)
+  (let ((newnick (if (string-suffix-p "|afk" nick)
+                     (string-remove-suffix "|afk" nick)
+                   (concat nick "|afk")
+                   )))
+    (concat "/nick " newnick)))
+
+(defun erc-switch-afk ()
+  (interactive)
+  (goto-char (point-max))
+  (if (= (point-max) (line-beginning-position))
+      (progn
+        (insert (erc-switch-afk-command (erc-current-nick)))
+        (erc-send-current-line))
+    (message "line is not empy!")))
+
 (add-hook 'erc-insert-post-hook 'erc-save-buffer-in-logs)
-(add-hook 'erc-mode-hook '(lambda () (when (not (featurep 'xemacs))
-                                       (set (make-variable-buffer-local
-                                             'coding-system-for-write)
-                                            'emacs-mule))))
+(add-hook 'erc-mode-hook '(lambda ()
+                            (when (not (featurep 'xemacs))
+                              (set (make-variable-buffer-local
+                                    'coding-system-for-write)
+                                   'emacs-mule))
+                            (local-set-key (kbd "C-c a") 'erc-switch-afk)
+                            ))
 
 ;; freedesktop notifications on PM or nickname mentioned in channel
 (add-to-list 'erc-modules 'notifications)
