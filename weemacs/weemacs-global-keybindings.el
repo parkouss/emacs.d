@@ -14,4 +14,6 @@
 
 (global-set-key (kbd "C-c r")  'rename-file-and-buffer)
 
+(global-set-key (kbd "TAB") #'company-indent-or-complete-common)
+
 (provide 'weemacs-global-keybindings)
