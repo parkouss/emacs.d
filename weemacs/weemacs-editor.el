@@ -71,4 +71,6 @@
 ;; undo and redo changes in the window configuration
 (winner-mode 1)
 
+(delete-selection-mode 1)
+
 (provide 'weemacs-editor)
