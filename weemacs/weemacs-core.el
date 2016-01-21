@@ -50,4 +50,12 @@ PROMPT sets the `read-string prompt."
           (set-visited-file-name new-name t t)))))))
 
 
+(defun create-temp-buffer (name)
+  "Create quicly a ready to use buffer"
+  (interactive "sName of the new buffer: ")
+  (switch-to-buffer (generate-new-buffer name))
+  (let ((buffer-file-name name))
+    (set-auto-mode t)))
+
+
 (provide 'weemacs-core)

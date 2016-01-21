@@ -13,6 +13,7 @@
 (global-set-key (kbd "C-c j") 'weemacs-jump-to-register)
 
 (global-set-key (kbd "C-c r")  'rename-file-and-buffer)
+(global-set-key (kbd "C-c b") 'create-temp-buffer)
 
 (global-set-key (kbd "TAB") #'company-indent-or-complete-common)
 
