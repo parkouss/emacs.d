@@ -21,4 +21,6 @@
 ;; tooltips with gnome in this case - so here is a workaround
 (global-set-key (kbd "<f12>") 'toggle-frame-maximized)
 
+(global-set-key (kbd "C-x g") 'magit-status)
+
 (provide 'weemacs-global-keybindings)
