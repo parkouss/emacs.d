@@ -17,4 +17,8 @@
 
 (global-set-key (kbd "TAB") #'company-indent-or-complete-common)
 
+;; full screen is <f11> by default, but I do not see desktop
+;; tooltips with gnome in this case - so here is a workaround
+(global-set-key (kbd "<f12>") 'toggle-frame-maximized)
+
 (provide 'weemacs-global-keybindings)
