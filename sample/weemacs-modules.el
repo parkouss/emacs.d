@@ -26,3 +26,5 @@
 (require 'weemacs-expand-region)
 ;; rust support
 ;; (require 'weemacs-rust)
+;; nice pdf support
+;; (require 'weemacs-pdf)
