@@ -16,7 +16,8 @@
             (local-set-key "\C-cpm" 'pytest-pdb-module)
             (local-set-key "\C-cp." 'pytest-pdb-one)
             (setq-local fill-column 79)
-            (turn-on-auto-fill)))
+            (turn-on-auto-fill)
+            (superword-mode 1)))
 
 ;; first Add company-anaconda to allowed company-mode backends list
 (eval-after-load "company"
