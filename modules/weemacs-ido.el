@@ -1,4 +1,4 @@
-(weemacs-require-packages '(flx-ido ido-ubiquitous smex))
+(weemacs-require-packages '(flx-ido ido-ubiquitous smex ido-vertical-mode))
 
 ;; ido support
 (require 'ido)
@@ -16,6 +16,10 @@
 (ido-mode 1)
 (ido-everywhere 1)
 (ido-ubiquitous-mode 1)
+(ido-vertical-mode 1)
+
+(setq ido-vertical-define-keys 'C-n-C-p-up-down-left-right)
+
 ;;; smarter fuzzy matching for ido
 (flx-ido-mode +1)
 ;; disable ido faces to see flx highlights
