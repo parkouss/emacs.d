@@ -73,4 +73,7 @@
 
 (delete-selection-mode 1)
 
+;; use C-w to kill a line with EOL
+(whole-line-or-region-mode 1)
+
 (provide 'weemacs-editor)

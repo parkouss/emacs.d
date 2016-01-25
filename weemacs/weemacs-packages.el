@@ -36,6 +36,8 @@
     browse-kill-ring
     ;; project management
     projectile
+    ;; C-w to kill a whole line
+    whole-line-or-region
     )
   "A list of packages to ensure are installed at launch.")
 
