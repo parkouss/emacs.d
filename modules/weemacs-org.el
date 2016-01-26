@@ -11,4 +11,6 @@
 (add-hook 'org-shiftdown-final-hook 'windmove-down)
 (add-hook 'org-shiftright-final-hook 'windmove-right)
 
+(setq org-default-notes-file (expand-file-name "notes.org" weemacs-dir))
+
 (provide 'weemacs-org)

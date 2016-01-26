@@ -23,4 +23,6 @@
 
 (global-set-key (kbd "C-x g") 'magit-status)
 
+(define-key global-map "\C-cc" 'org-capture)
+
 (provide 'weemacs-global-keybindings)
