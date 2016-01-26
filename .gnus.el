@@ -1,10 +1,3 @@
-(setq user-mail-address	"j.parkouss@gmail.com"
-      user-full-name "Julien Pagès"
-      send-mail-function 'smtpmail-send-it
-      message-send-mail-function 'smtpmail-send-it
-      smtpmail-smtp-server "smtp.gmail.com"
-      smtpmail-smtp-service 587)
-
 ;; (setq gnus-asynchronous t)
 
 ;;@see http://www.emacswiki.org/emacs/GnusGmail
