@@ -76,4 +76,6 @@
 ;; use C-w to kill a line with EOL
 (whole-line-or-region-mode 1)
 
+(require 'dired-x)
+
 (provide 'weemacs-editor)
