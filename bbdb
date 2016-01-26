@@ -1,0 +1,4 @@
+;; -*- mode: Emacs-Lisp; coding: utf-8; -*-
+;;; file-format: 7
+["Urarii" "Heinui" nil nil nil nil nil ("heinui.urarii@gmail.com") ((creation-date . "2016-01-26 11:46:30 +0000") (timestamp . "2016-01-26 11:51:14 +0000") (anniversary . "1986-04-03")) nil]
+["Julien" "Pagès" nil nil nil nil nil ("j.parkouss@gmail.com") ((creation-date . "2015-12-22 20:50:02 +0000") (timestamp . "2015-12-22 20:50:02 +0000")) nil]

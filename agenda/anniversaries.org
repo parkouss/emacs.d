@@ -1,0 +1,5 @@
+* Anniversaries
+  :PROPERTIES:
+  :CATEGORY: Anniv
+  :END:
+%%(org-bbdb-anniversaries)

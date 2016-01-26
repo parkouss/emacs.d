@@ -13,4 +13,6 @@
 
 (setq org-default-notes-file (expand-file-name "notes.org" weemacs-dir))
 
+(setq org-agenda-files (list (expand-file-name "agenda" weemacs-dir)))
+
 (provide 'weemacs-org)
