@@ -1,0 +1,3 @@
+[submodule "private"]
+	path = private
+	url = https://parkouss@bitbucket.org/parkouss/emacs-private.git

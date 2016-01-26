@@ -1,5 +1,7 @@
 (defvar weemacs-dir (file-name-directory load-file-name)
   "The root dir of the weemacs (~/.emacs.d).")
+(defvar weemacs-private-dir (expand-file-name "private" weemacs-dir)
+  "private dir")
 (defvar weemacs-core-dir (expand-file-name "weemacs" weemacs-dir)
   "The home of weemacs's core functionality.")
 (defvar weemacs-modules-dir (expand-file-name "modules" weemacs-dir)

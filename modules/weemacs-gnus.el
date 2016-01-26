@@ -1,6 +1,7 @@
 (weemacs-require-package 'bbdb)
 (setq gnus-init-file (expand-file-name ".gnus" weemacs-dir ))
 
+(setq bbdb-file (expand-file-name "bbdb" weemacs-private-dir))
 (require 'bbdb)
 
 (bbdb-mua-auto-update-init 'message) ;; use 'gnus for incoming messages too
