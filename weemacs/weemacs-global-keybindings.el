@@ -25,4 +25,6 @@
 
 (define-key global-map "\C-cc" 'org-capture)
 
+(global-set-key (kbd "<f8>") 'switch-ispell-dictionary)
+
 (provide 'weemacs-global-keybindings)

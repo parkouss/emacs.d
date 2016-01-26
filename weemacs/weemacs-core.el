@@ -65,5 +65,11 @@ PROMPT sets the `read-string prompt."
      (concat "/sudo:root@localhost:"
              buffer-file-name))))
 
+(defun switch-ispell-dictionary()
+  (interactive)
+  (let* ((dic ispell-current-dictionary)
+    	 (change (if (string= dic "francais") "english" "francais")))
+    (ispell-change-dictionary change)
+    ))
 
 (provide 'weemacs-core)
