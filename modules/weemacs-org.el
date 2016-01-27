@@ -2,11 +2,11 @@
 (weemacs-require-package 'ox-reveal)
 (weemacs-require-package 'htmlize) ;; code coloring for org-reveal
 
+;; Make windmove work in org-mode (do this before loading org):
+(setq org-replace-disputed-keys t)
+
 (require 'ox-reveal)
 (require 'ob-dot)
-
-;; Make windmove work in org-mode:
-(setq org-replace-disputed-keys t)
 
 (setq org-default-notes-file (expand-file-name "notes.org" weemacs-dir))
 
