@@ -79,4 +79,9 @@
 
 (require 'dired-x)
 
+;; abbreviations
+(setq abbrev-file-name (expand-file-name "abbrev_defs" weemacs-dir))
+(setq save-abbrevs t)
+(setq-default abbrev-mode t)
+
 (provide 'weemacs-editor)
