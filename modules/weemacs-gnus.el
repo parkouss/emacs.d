@@ -7,7 +7,8 @@
       message-send-mail-function 'smtpmail-send-it
       smtpmail-smtp-server "smtp.gmail.com"
       smtpmail-smtp-service 587
-      compose-mail-user-agent-warnings nil)
+      compose-mail-user-agent-warnings nil
+      message-signature user-full-name)
 
 (setq bbdb-file (expand-file-name "bbdb" weemacs-private-dir))
 (require 'bbdb)
