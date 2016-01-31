@@ -28,3 +28,5 @@
 ;; (require 'weemacs-rust)
 ;; nice pdf support
 ;; (require 'weemacs-pdf)
+;; translation support
+(require 'weemacs-translate)
