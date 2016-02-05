@@ -30,3 +30,4 @@
 ;; (require 'weemacs-pdf)
 ;; translation support
 (require 'weemacs-translate)
+(require 'weemacs-slime)
