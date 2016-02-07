@@ -38,6 +38,8 @@
     projectile
     ;; C-w to kill a whole line
     whole-line-or-region
+    ;; paredit, for lisp like editing
+    paredit
     )
   "A list of packages to ensure are installed at launch.")
 
