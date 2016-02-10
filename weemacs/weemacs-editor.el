@@ -54,7 +54,7 @@
   (add-hook hook (lambda () (flyspell-mode -1))))
 
 ;; enable the text completion framework
-(setq company-idle-delay nil) ;; don't autocomplete without me asking for it.
+(setq company-require-match nil)  ;; allow to type whatever I want to during completion
 (setq company-dabbrev-downcase nil)  ;; try to respect case completion
 (global-company-mode)
 

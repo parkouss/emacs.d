@@ -15,7 +15,7 @@
 (global-set-key (kbd "C-c r")  'rename-file-and-buffer)
 (global-set-key (kbd "C-c b") 'create-temp-buffer)
 
-(global-set-key (kbd "TAB") #'company-indent-or-complete-common)
+(global-set-key (kbd "C-$") #'company-complete)
 
 ;; full screen is <f11> by default, but I do not see desktop
 ;; tooltips with gnome in this case - so here is a workaround
