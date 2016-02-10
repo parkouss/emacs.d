@@ -18,6 +18,10 @@
 
 ;; smart pairing for all
 (require 'smartparens-config)
+(define-key smartparens-mode-map (kbd "C-(") 'sp-backward-slurp-sexp)
+(define-key smartparens-mode-map (kbd "C-)") 'sp-forward-slurp-sexp)
+(define-key smartparens-mode-map (kbd "C-M-(") 'sp-backward-barf-sexp)
+(define-key smartparens-mode-map (kbd "C-M-)") 'sp-forward-barf-sexp)
 (add-hook 'prog-mode-hook 'smartparens-mode)
 
 ;; smarter kill-ring navigation (M-y)
