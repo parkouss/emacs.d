@@ -31,8 +31,7 @@
 
 ;;; Code:
 
-(setq pastebin-dev-key "2b6422b7a9f84246b4a84aa5cf068de7")
-(setq pastebin-url "http://pastebin.com/api/api_post.php")
+(setq pastebin-url "https://bpaste.net")
 
 (defcustom pastebin-type-assoc
   '((actionscript-mode . " actionscript")
@@ -98,7 +97,7 @@
     (po-mode . "gettext")
     (prolog-mode . "prolog")
     (python-2-mode . "python")
-    (python-3-mode . "python")
+    (python-3-mode . "python3")
     (python-basic-mode . "python")
     (python-mode . "python")
     (ruby-mode . "ruby")
@@ -115,42 +114,34 @@
   :type '(alist :key-type symbol :value-tupe string)
   :group 'pastebin)
 
-;; see http://pastebin.com/api#1
-(defun pastebin--build-post-data (text &rest args)
-  (let ((dev-key (or (plist-get args :dev-key) pastebin-dev-key))
-        (paste-code (url-hexify-string text))
-        (paste-private (or (plist-get args :paste-private) "1"))
-        (paste-name (url-hexify-string
-                     (or (plist-get args :paste-name) "untitled")))
-        (paste-expire-date (or (plist-get args :paste-expire-date) "2W"))
-        (paste-format (or (plist-get args :paste-format) "text"))
-        (user-key (or (plist-get args :user-key) ""))
-        )
-    (format "api_option=paste&api_user_key=%s&api_paste_private=%s&api_paste_name=%s&api_paste_expire_date=%s&api_paste_format=%s&api_dev_key=%s&api_paste_code=%s"
-            user-key
-            paste-private
-            paste-name
-            paste-expire-date
-            paste-format
-            dev-key
-            paste-code)))
+(defun paste-urlencode-data (fields)
+  (mapconcat #'(lambda (field)
+                 (concat (url-hexify-string (car field))
+                         "="
+                         (url-hexify-string (cdr field))))
+             fields
+             "&"))
 
-(defun pastebin-post (text &rest args)
-  (let ((url-request-method "POST")
+(defun pastebin-post (text format)
+  (let ((url pastebin-url)
+        (url-request-method "POST")
+        (url-http-attempt-keepalives nil)  ;; required due to some bug
         (url-request-extra-headers
          '(("Content-Type" . "application/x-www-form-urlencoded")))
-        (url-request-data (apply 'pastebin--build-post-data text args)))
-    (url-retrieve
-     pastebin-url
-     (lambda (status)
-       (cond
-        ((equal :error (car status))
-         (signal 'pastebin-error (cdr status)))
-        (t
-         (re-search-forward "\n\n")
-         (clipboard-kill-ring-save (point) (point-max))
-         (message "Pastebin URL: %s" (buffer-substring (point) (point-max)))
-         (kill-buffer (current-buffer))))))))
+        (url-request-data (format "code=%s&lexer=%s&expiry=%s"
+                                  (url-hexify-string text)
+                                  (url-hexify-string format)
+                                  "1week")))
+    (with-current-buffer (url-retrieve-synchronously url)
+      (goto-char (point-min))
+      (search-forward-regexp "https://bpaste.net/show/[[:alnum:]]+")
+      (let ((url (match-string 0)))
+        (if url
+            (progn
+              (kill-new url)
+              (message "Pastebin URL: %s" url))
+          (error "failed to paste.")))
+      (kill-buffer (current-buffer)))))
 
 (defun pastebin (start end)
   "Send the region to the pastebin.com.
@@ -167,9 +158,9 @@ Argument END is the end of region."
        (list (region-beginning) (region-end))
      (list (point-min) (point-max))))
   (let ((text (buffer-substring-no-properties start end))
-        (paste-format (or (assoc-default major-mode pastebin-type-assoc) "text"))
-        (paste-name (buffer-name)))
-    (pastebin-post text :paste-format paste-format :paste-name paste-name)))
+        (paste-format
+         (or (assoc-default major-mode pastebin-type-assoc) "text")))
+    (pastebin-post text paste-format)))
 
 (provide 'weemacs-pastebin)
 ;;; weemacs-pastebin.el ends here
