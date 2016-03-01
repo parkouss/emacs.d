@@ -8,6 +8,8 @@
 ;; (require 'weemacs-typescript)
 ;; javascript
 (require 'weemacs-javascript)
+;; web-mode
+(require 'weemacs-webmode)
 ;; erc
 (require 'weemacs-erc)
 ;; ido
