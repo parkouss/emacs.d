@@ -5,6 +5,8 @@
 (weemacs-require-package 'pyvenv)
 (weemacs-require-package 'pytest)
 
+(setq python-fill-docstring-style 'django)
+
 (require 'pytest)
 (add-hook 'python-mode-hook
           (lambda ()
