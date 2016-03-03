@@ -1,9 +1,10 @@
 (weemacs-require-package 'yasnippet)
 
+(require 'yasnippet)
+
 (setq yas-prompt-functions '(yas-ido-prompt))
 
-(global-set-key (kbd "C-c s") 'yas-insert-snippet)
-
-(yas-global-mode 1)
+(yas-reload-all)
+(add-hook 'python-mode-hook #'yas-minor-mode)
 
 (provide 'weemacs-yasnippet)
