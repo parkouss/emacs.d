@@ -32,4 +32,7 @@
 ;; (require 'weemacs-pdf)
 ;; translation support
 (require 'weemacs-translate)
+;; lisp support
 (require 'weemacs-slime)
+;; w3m web browser
+(require 'weemacs-w3m)
