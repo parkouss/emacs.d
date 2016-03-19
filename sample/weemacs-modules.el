@@ -36,3 +36,5 @@
 (require 'weemacs-slime)
 ;; w3m web browser
 (require 'weemacs-w3m)
+;; docker suppport
+(require 'weemacs-docker)
