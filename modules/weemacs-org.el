@@ -12,4 +12,11 @@
 
 (setq org-agenda-files (list (expand-file-name "agenda" weemacs-dir)))
 
+(setq org-tag-alist '((:startgroup . nil)
+                      ("@work" . ?w) ("@home" . ?h)
+                      (:endgroup . nil)))
+
+(add-hook 'org-mode-hook
+          (lambda ()
+            (turn-on-auto-fill)))
 (provide 'weemacs-org)
