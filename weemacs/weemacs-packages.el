@@ -30,6 +30,8 @@
     highlight-parentheses
     ;; git porcelain
     magit
+    ;; and helpful git stuff for github/bitbucket
+    git-link
     ;; help to discover key bindings for major and minor modes
     discover-my-major
     ;; kill ring nice access
