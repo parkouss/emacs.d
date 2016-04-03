@@ -27,4 +27,9 @@
 
 (global-set-key (kbd "<f8>") 'switch-ispell-dictionary)
 
+;; for Edit Next
+(global-set-key (kbd "C-c en") 'switch-to-next-buffer)
+;;for Edit Previous
+(global-set-key (kbd "C-c ep") 'switch-to-prev-buffer)
+
 (provide 'weemacs-global-keybindings)
