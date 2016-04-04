@@ -38,3 +38,5 @@
 (require 'weemacs-w3m)
 ;; docker suppport
 (require 'weemacs-docker)
+;; jabber
+(require 'weemacs-jabber)
