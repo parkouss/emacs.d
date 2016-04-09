@@ -40,3 +40,5 @@
 (require 'weemacs-docker)
 ;; jabber
 (require 'weemacs-jabber)
+;; bongo media player
+(require 'weemacs-mediaplayer)
