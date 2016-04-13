@@ -27,6 +27,9 @@
 
 (global-set-key (kbd "<f8>") 'switch-ispell-dictionary)
 
+;; open ibuffer menu in other window, and go in there.
+(global-set-key (kbd "C-x C-b") 'ibuffer-other-window)
+
 ;; for Edit Next
 (global-set-key (kbd "C-c en") 'switch-to-next-buffer)
 ;;for Edit Previous
