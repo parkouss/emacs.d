@@ -1,6 +1,4 @@
-(weemacs-require-package 'js2-mode)
-(weemacs-require-package 'tern)
-(weemacs-require-package 'company-tern)
+(weemacs-require-packages '(js2-mode tern company-tern coffee-mode))
 
 (defun my-key-binding ()
   "Change key binding for tern"
@@ -18,5 +16,8 @@
                            (local-set-key (kbd "M-*") 'tern-pop-find-definition)
                            (local-set-key (kbd "M-?") 'tern-get-docs)
                            ))
+
+(add-hook 'coffee-mode-hook (lambda ()
+                              (setq coffee-tab-width 2)))
 
 (provide 'weemacs-javascript)
