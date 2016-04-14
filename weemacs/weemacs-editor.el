@@ -94,4 +94,8 @@
 (setq save-abbrevs t)
 (setq-default abbrev-mode t)
 
+;; nice ediff config
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+(setq ediff-split-window-function 'split-window-horizontally)
+
 (provide 'weemacs-editor)
