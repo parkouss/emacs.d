@@ -2,6 +2,8 @@
 (weemacs-require-package 'ox-reveal)
 (weemacs-require-package 'htmlize) ;; code coloring for org-reveal
 
+(require 'org-protocol)
+
 ;; Make windmove work in org-mode (do this before loading org):
 (setq org-replace-disputed-keys t)
 
