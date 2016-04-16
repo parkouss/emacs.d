@@ -1,4 +1,6 @@
 (weemacs-require-package 'web-mode)
+;; yaml is kind of related to web editing - I don't want to create a package for it.
+(weemacs-require-package 'yaml-mode)
 
 (require 'web-mode)
 
