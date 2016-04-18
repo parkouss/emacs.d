@@ -1,8 +1,11 @@
 (weemacs-require-package 'jabber)
 
-(setq jabber-account-list '(
+(setq jabber-account-list `(
                             ;; steery.io account
-                            ("213996_3664926@chat.hipchat.com")))
+                            ("213996_3664926@chat.hipchat.com"
+                             (:password . ,jabber_steery_password))))
+
+(setq jabber-auto-reconnect t)
 
 (eval-after-load 'jabber
   `(progn

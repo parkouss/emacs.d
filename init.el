@@ -27,6 +27,10 @@
 (require 'weemacs-diminish)
 (require 'weemacs-global-keybindings)
 
+;; secrets
+(load (expand-file-name "passwd.el"
+                        (expand-file-name "private" weemacs-dir)))
+
 ;; the modules
 (if (file-exists-p weemacs-modules-file)
     (load weemacs-modules-file)
