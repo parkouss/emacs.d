@@ -20,8 +20,9 @@
 (require 'weemacs-org)
 ;; interface to pastebin
 (require 'weemacs-pastebin)
-;; mail reader
-(require 'weemacs-gnus)
+;; mail reader TODO: remove gnus?
+;;(require 'weemacs-gnus)
+(require 'weemacs-mu4e)
 ;; snippets
 (require 'weemacs-yasnippet)
 ;; expand region
