@@ -1,11 +1,22 @@
 (weemacs-require-package 'w3m)
 
+(defun browse-url-conkeror (url &rest args)
+  "Open an url in conkeror"
+  (interactive (browse-url-interactive-arg "URL: "))
+  (let ((browse-url-generic-program "conkeror"))
+      (browse-url-generic url)))
+
 (require 'w3m)
 
 (setq w3m-use-cookies t)
 
-;;change default browser for 'browse-url'  to w3m
-(setq browse-url-browser-function 'w3m-goto-url-new-session)
+;; open url with w3m by default, and conkeror if C-u is used
+(setq browse-url-browser-function
+      (lambda (url &rest args)
+        (apply
+         (if current-prefix-arg 'browse-url-conkeror
+           'w3m-goto-url-new-session)
+         url args)))
 
 ;;change w3m user-agent to android
 (setq w3m-user-agent "Mozilla/5.0 (Linux; U; Android 2.3.3; zh-tw; HTC_Pyramid Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.")
