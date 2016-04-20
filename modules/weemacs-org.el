@@ -12,7 +12,8 @@
 
 (setq org-return-follows-link t)
 
-(setq org-default-notes-file (expand-file-name "notes.org" weemacs-dir))
+(setq org-default-notes-file (expand-file-name "notes.org"
+                                               (expand-file-name "agenda" weemacs-dir)))
 
 (setq org-agenda-files (list (expand-file-name "agenda" weemacs-dir)))
 

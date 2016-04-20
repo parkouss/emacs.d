@@ -4,6 +4,8 @@
 (require 'mu4e)
 (require 'smtpmail)
 
+(require 'org-mu4e) ;; allow to capture links to mails
+
 ;; sending mails
 (setq user-mail-address	"j.parkouss@gmail.com"
       user-full-name "Julien Pagès"
@@ -23,7 +25,7 @@
  ;; on arch, pacman -S isync
  mu4e-get-mail-command (concat "mbsync -qaV -c "
                                (expand-file-name "private/.mbsyncrc" weemacs-dir))
- mu4e-update-interval 300
+ ;; mu4e-update-interval 300
 
  mu4e-drafts-folder "/brouillons"
  mu4e-sent-folder   "/envois"

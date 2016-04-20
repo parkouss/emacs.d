@@ -24,6 +24,7 @@
 (global-set-key (kbd "C-x g") 'magit-status)
 
 (define-key global-map "\C-cc" 'org-capture)
+(define-key global-map "\C-ca" 'org-agenda)
 
 (global-set-key (kbd "<f8>") 'switch-ispell-dictionary)
 
