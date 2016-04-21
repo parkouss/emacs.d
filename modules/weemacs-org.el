@@ -15,7 +15,9 @@
 (setq org-default-notes-file (expand-file-name "notes.org"
                                                (expand-file-name "agenda" weemacs-dir)))
 
-(setq org-agenda-files (list (expand-file-name "agenda" weemacs-dir)))
+(setq org-agenda-files (list (expand-file-name "agenda" weemacs-dir)
+                             (expand-file-name "contacts.org"
+                                               (expand-file-name "private" weemacs-dir))))
 
 (setq org-tag-alist '((:startgroup . nil)
                       ("@work" . ?w) ("@home" . ?h)

@@ -51,4 +51,7 @@
  message-kill-buffer-on-exit t
  )
 
+;; override the default new mail command, so I have addresses from gmail
+(global-set-key (kbd "C-x m") 'mu4e-compose-new)
+
 (provide 'weemacs-mu4e)
