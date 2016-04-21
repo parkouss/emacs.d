@@ -32,7 +32,7 @@
  mu4e-trash-folder  "/corbeille"
 
  ;; don't save message to Sent Messages, Gmail/IMAP takes care of this
- ;;mu4e-sent-messages-behavior 'delete
+ mu4e-sent-messages-behavior 'delete
 
  ;; required for mbsync
  ;;mu4e-change-filenames-when-moving t
