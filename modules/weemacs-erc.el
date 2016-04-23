@@ -34,10 +34,6 @@
 (setq erc-log-channels-directory (expand-file-name "erc-logs" weemacs-dir))
 (setq erc-save-buffer-on-part t)
 
-(defadvice save-buffers-kill-emacs (before save-logs (arg) activate)
-  (save-some-buffers t (lambda () (when (and (eq major-mode 'erc-mode)
-                                             (not (null buffer-file-name)))))))
-
 ;; switch afk nick
 (defun erc-switch-afk-command (nick)
   (let ((newnick (if (string-suffix-p "|afk" nick)
