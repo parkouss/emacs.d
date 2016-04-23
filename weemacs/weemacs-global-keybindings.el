@@ -12,6 +12,9 @@
 (global-set-key (kbd "C-c m") 'weemacs-point-to-register)
 (global-set-key (kbd "C-c j") 'weemacs-jump-to-register)
 
+(global-set-key (kbd "C-c r") 'vr/replace)
+(global-set-key (kbd "C-c q") 'vr/query-replace)
+
 (global-set-key (kbd "C-c b") 'create-temp-buffer)
 
 (global-set-key (kbd "C-$") #'company-complete)

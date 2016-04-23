@@ -40,6 +40,8 @@
     projectile
     ;; C-w to kill a whole line
     whole-line-or-region
+    ;; nice visual regexes (vr/replace, vr/query-replace)
+    visual-regexp
     )
   "A list of packages to ensure are installed at launch.")
 
