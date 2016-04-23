@@ -98,4 +98,7 @@
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 (setq ediff-split-window-function 'split-window-horizontally)
 
+;; good setting for M-x re-builder
+(setq reb-re-syntax 'string)
+
 (provide 'weemacs-editor)
