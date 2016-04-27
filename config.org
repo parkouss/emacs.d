@@ -1,0 +1,952 @@
+#+TITLE: My Emacs configuration
+
+* Setup
+
+#+BEGIN_SRC emacs-lisp
+  ;; reduce the frequency of garbage collection by making it happen on
+  ;; each 50MB of allocated data (the default is on every 0.76MB)
+  (setq gc-cons-threshold 50000000)
+#+END_SRC
+
+** global variables
+
+#+BEGIN_SRC emacs-lisp
+  (defvar savefile-dir (expand-file-name "savefile-dir" my-conf-dir)
+    "directory where some temp files (still reusable between sessions) are stored.")
+#+END_SRC
+
+* Package initialization
+
+** melpa
+
+I use melpa as a source of packages.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'package)
+  (add-to-list 'package-archives
+               '("melpa" . "http://melpa.org/packages/") t)
+  (setq load-prefer-newer t)
+  ;; set package-user-dir to be relative to this configuration
+  (setq package-user-dir (expand-file-name "melpa" my-conf-dir))
+  (package-initialize)
+#+END_SRC
+
+** use-package
+
+I use [[https://github.com/jwiegley/use-package][use-package]] to manage external packages and their configuration. Still,
+this needs to be installed first.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'package)
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+  (require 'use-package)
+#+END_SRC
+
+* UI configuration
+
+I like emacs with a really simple ui, nothing fancy so I can only concentrate
+on what I am reading or writing.
+
+#+BEGIN_SRC emacs-lisp
+  ;; the toolbar is just a waste of valuable screen estate
+  ;; in a tty tool-bar-mode does not properly auto-load, and is
+  ;; already disabled anyway
+  (when (fboundp 'tool-bar-mode)
+    (tool-bar-mode -1))
+
+  (menu-bar-mode -1)
+
+  ;; the blinking cursor is nothing, but an annoyance
+  (blink-cursor-mode -1)
+
+  ;; scrollbar is useless
+  (scroll-bar-mode -1)
+
+  ;; disable startup screen
+  (setq inhibit-startup-screen t)
+
+  ;; nice scrolling
+  (setq scroll-margin 0
+        scroll-conservatively 100000
+        scroll-preserve-screen-position 1)
+
+  ;; no bip
+  (setq ring-bell-function 'ignore)
+
+  ;; mode line settings
+  (line-number-mode t)
+  (column-number-mode t)
+
+  ;; enable y/n answers
+  (fset 'yes-or-no-p 'y-or-n-p)
+
+  ;; highlight the current line
+  (global-hl-line-mode +1)
+#+END_SRC
+
+** spacemacs-theme
+
+I like the spacemacs theme.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package spacemacs-theme
+    :ensure t
+    :init (load-theme 'spacemacs-dark t)
+    ;; binded here, but this require both spacemacs and smart mode line...
+    :bind ("<f9>" . toggle-dark-light-theme))
+#+END_SRC
+
+** smart-mode-line
+
+This provides a sexy mode line:
+
+#+BEGIN_SRC emacs-lisp
+  (use-package smart-mode-line
+    :ensure t
+    :init
+    (setq sml/no-confirm-load-theme t)
+    (sml/setup))
+
+  ;; Not sure why, this is causing errors in the *Messages* buffer
+  ;; (use-package
+  ;;  smart-mode-line-powerline-theme
+  ;;  :ensure t
+  ;;  :init (setq sml/theme 'powerline))
+#+END_SRC
+
+** Switching themes
+
+A function to switch between dark/light themes.
+This is binded to <f9> (see the above spacemacs theme section)
+
+#+BEGIN_SRC emacs-lisp
+  (defun toggle-dark-light-theme ()
+    (interactive)
+
+    (let ((is_light (find 'spacemacs-light custom-enabled-themes)))
+      (dolist (theme custom-enabled-themes)
+        (disable-theme theme))
+
+      (if is_light
+          (progn
+            (load-theme 'smart-mode-line-dark t)
+            (load-theme 'spacemacs-dark t))
+        (load-theme 'smart-mode-line-light t)
+        (load-theme 'spacemacs-light t))))
+#+END_SRC
+
+** Highlight parentheses
+
+Fancy highlighted parentheses:
+
+#+BEGIN_SRC emacs-lisp
+  (use-package highlight-parentheses
+    :ensure t
+    :init
+    (define-globalized-minor-mode global-highlight-parentheses-mode
+      highlight-parentheses-mode
+      (lambda nil (highlight-parentheses-mode t)))
+
+    (global-highlight-parentheses-mode t)
+
+    (require 'paren)
+    (setq show-paren-style 'parenthesis)
+    (show-paren-mode +1))
+#+END_SRC
+
+** diminish
+
+Diminish things in the mode line:
+
+#+BEGIN_SRC emacs-lisp
+  (use-package diminish
+    :ensure t)
+#+END_SRC
+
+** volatile-highlights
+
+Gives useful visual feedback for what your operation actually changed in the
+buffer.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package volatile-highlights
+    :ensure t
+    :diminish volatile-highlights-mode
+    :init (volatile-highlights-mode t))
+#+END_SRC
+
+* Working with buffers, windows and frames
+
+** built-in configuration
+
+#+BEGIN_SRC emacs-lisp
+  (use-package emacs
+    :commands create-temp-buffer
+    :init
+    ;; undo and redo changes in the window configuration
+    (winner-mode 1)
+
+    (defun create-temp-buffer (name)
+      "Create quicly a ready to use buffer"
+      (interactive "sName of the new buffer: ")
+      (switch-to-buffer (generate-new-buffer name))
+      (let ((buffer-file-name name))
+        (set-auto-mode t)))
+
+    :bind (("C-c en" . switch-to-next-buffer) ;; for Edit Next
+           ("C-c ep" . switch-to-prev-buffer) ;;for Edit Previous
+           ;; full screen is <f11> by default, but I do not see desktop
+           ;; tooltips with gnome in this case - so here is a workaround
+           ("<f12>" . toggle-frame-maximized)
+           ;; open ibuffer menu in other window, and go in there.
+           ("C-x C-b" . ibuffer-other-window)
+           ("C-c b" . create-temp-buffer)))
+#+END_SRC
+
+* Common editing features
+
+#+BEGIN_SRC emacs-lisp
+  ;; don't use tabs to indent
+  (setq-default indent-tabs-mode nil)
+
+  ;; Newline at end of file
+  (setq require-final-newline t)
+
+  ;; delete the selection with a keypress
+  (delete-selection-mode t)
+
+  ;; store all backup and autosave files in the tmp dir
+  (setq backup-directory-alist
+        `((".*" . ,temporary-file-directory)))
+  (setq auto-save-file-name-transforms
+        `((".*" ,temporary-file-directory t)))
+
+  ;; revert buffers automatically when underlying files are changed externally
+  (use-package autorevert
+    :diminish
+    :init (global-auto-revert-mode t))
+
+  ;; nice ediff config
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+  (setq ediff-split-window-function 'split-window-horizontally)
+
+  ;; good setting for M-x re-builder
+  (setq reb-re-syntax 'string)
+
+  ;; enhanced dired mode
+  (require 'dired-x)
+#+END_SRC
+
+** smartparens
+
+I like smartparens to auto-complete opened parens and other great things:
+
+#+BEGIN_SRC emacs-lisp
+  (use-package smartparens
+    :ensure t
+    :diminish smartparens-mode
+    :bind (:map smartparens-mode-map
+                ("C-(" . sp-backward-slurp-sexp)
+                ("C-)" . sp-forward-slurp-sexp)
+                ("C-M-(" . sp-backward-barf-sexp)
+                ("C-M-)" . sp-forward-barf-sexp))
+    :init (add-hook 'prog-mode-hook 'smartparens-mode))
+
+
+#+END_SRC
+
+
+** Browse kill ring
+
+Use M-y to display a buffer of the kill ring, so I can easily find a previously
+copied text.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package browse-kill-ring
+    :ensure t
+    :init (browse-kill-ring-default-keybindings))
+#+END_SRC
+
+** undo-tree
+
+A nice undo redo for emacs. C-x u for a visible buffer!
+
+#+BEGIN_SRC emacs-lisp
+  (use-package undo-tree
+    :ensure t
+    :diminish undo-tree-mode
+    :init (global-undo-tree-mode)
+    :bind (("C-z" . undo)
+           ("C-S-z" . undo-tree-redo)))
+#+END_SRC
+
+** flycheck
+
+Check syntax on the fly.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck
+    :ensure t
+    :diminish flycheck-mode
+    :init (add-hook 'after-init-hook #'global-flycheck-mode))
+#+END_SRC
+
+
+** flyspell
+
+Flyspell check my typos in text and comments. :)
+
+#+BEGIN_SRC emacs-lisp
+  (use-package flyspell
+    :ensure t
+    :diminish flyspell-mode
+    :init
+    (setq ispell-dictionary "english")
+    (add-hook 'text-mode-hook (lambda () (flyspell-mode 1)))
+    (add-hook 'prog-mode-hook (lambda () (flyspell-prog-mode)))
+    (dolist (hook '(change-log-mode-hook log-edit-mode-hook))
+      (add-hook hook (lambda () (flyspell-mode -1))))
+
+    (defun switch-ispell-dictionary()
+      (interactive)
+      (let* ((dic ispell-current-dictionary)
+             (change (if (string= dic "francais") "english" "francais")))
+        (ispell-change-dictionary change)
+        ))
+
+    :bind ("<f8>" . switch-ispell-dictionary))
+#+END_SRC
+
+** company
+
+A completion framework.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :ensure t
+    :diminish company-mode
+    :init
+    (setq company-require-match nil)  ;; allow to type whatever I want to during completion
+    (setq company-dabbrev-downcase nil)  ;; try to respect case completion
+    (global-company-mode)
+    :bind (("C-$" . company-complete)
+           :map company-active-map
+           ("C-n" . company-select-next)
+           ("C-p" . company-select-previous)
+           ("C-d" . company-show-doc-buffer)
+           ("M-." . company-show-location)))
+#+END_SRC
+
+** whole-line-or-region
+
+Use C-w to kill the selected region, or the whole line.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package whole-line-or-region
+    :ensure t
+    :diminish whole-line-or-region-mode
+    :init (whole-line-or-region-mode 1))
+#+END_SRC
+
+** visual-regexp
+
+Nice visual regexes.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package visual-regexp
+    :ensure t
+    :bind (("C-c r" . vr/replace)
+           ("C-c q" . vr/query-replace)))
+#+END_SRC
+
+* org mode
+
+#+BEGIN_SRC emacs-lisp
+  (use-package
+    org :ensure t
+    :init
+    (require 'org-protocol)
+    (setq org-return-follows-link t)
+
+    (setq org-default-notes-file (expand-file-name "notes.org"
+                                                   (expand-file-name "agenda" my-conf-dir)))
+
+    (setq org-agenda-files (list (expand-file-name "agenda" my-conf-dir)
+                                 (expand-file-name "contacts.org"
+                                                   (expand-file-name "private" my-conf-dir))))
+
+    (setq org-tag-alist '((:startgroup . nil)
+                          ("@work" . ?w) ("@home" . ?h)
+                          (:endgroup . nil))))
+
+  (use-package org-bullets
+    :ensure t
+    :init
+    (add-hook 'org-mode-hook
+              (lambda ()
+                (turn-on-auto-fill)
+                (org-bullets-mode 1)
+
+                ;; from http://www.howardism.org/Technical/Emacs/orgmode-wordprocessor.html
+                ;; remove headers colors
+                (let* ((variable-tuple
+                        (cond ((x-list-fonts "Source Sans Pro") '(:font "Source Sans Pro"))
+                              ((x-list-fonts "Lucida Grande")   '(:font "Lucida Grande"))
+                              ((x-list-fonts "Verdana")         '(:font "Verdana"))
+                              ((x-family-fonts "Sans Serif")    '(:family "Sans Serif"))
+                              (nil (warn "Cannot find a Sans Serif Font.  Install Source Sans Pro."))))
+                       (base-font-color
+                        (face-foreground 'default nil 'default))
+                       (headline
+                        `(:inherit default :weight bold :foreground ,base-font-color)))
+
+                  (custom-theme-set-faces
+                   'user
+                   `(org-level-8 ((t (,@headline ,@variable-tuple))))
+                   `(org-level-7 ((t (,@headline ,@variable-tuple))))
+                   `(org-level-6 ((t (,@headline ,@variable-tuple))))
+                   `(org-level-5 ((t (,@headline ,@variable-tuple))))
+                   `(org-level-4 ((t (,@headline ,@variable-tuple :height 1.1))))
+                   `(org-level-3 ((t (,@headline ,@variable-tuple :height 1.25))))
+                   `(org-level-2 ((t (,@headline ,@variable-tuple :height 1.5))))
+                   `(org-level-1 ((t (,@headline ,@variable-tuple :height 1.75))))
+                   `(org-document-title ((t (,@headline ,@variable-tuple :height 1.5 :underline nil)))))))))
+#+END_SRC
+
+* Interactively do things
+
+#+BEGIN_SRC emacs-lisp
+  (use-package
+    ido :ensure t
+    :init
+    (ido-mode 1)
+    (ido-everywhere 1)
+
+    :config
+    (setq ido-enable-prefix nil
+          ido-enable-flex-matching t
+          ido-create-new-buffer 'always
+          ido-max-prospects 10
+          ido-save-directory-list-file (expand-file-name "ido.hist" savefile-dir)
+          ido-default-file-method 'selected-window
+          ido-auto-merge-work-directories-length -1
+          ido-vertical-define-keys 'C-n-C-p-up-down-left-right))
+
+  (use-package flx-ido
+    :ensure t
+    :init (flx-ido-mode +1)
+    :config
+    ;; disable ido faces to see flx highlights
+    (setq ido-use-faces nil))
+
+  (use-package ido-ubiquitous
+    :ensure t
+    :init (ido-ubiquitous-mode 1))
+
+  (use-package ido-vertical-mode
+    :ensure t
+    :init (ido-vertical-mode 1))
+
+  (use-package smex
+    :ensure t
+    :init
+    (setq smex-save-file (expand-file-name ".smex-items" savefile-dir))
+    (smex-initialize)
+
+    :bind ("M-x" . smex)
+    )
+#+END_SRC
+
+* Project management
+** Projectile
+
+A project management mode. I mainly use the *projetctile search grep* C-c p s
+g.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile
+    :ensure t
+    :diminish projectile-mode
+    :init
+    (setq projectile-cache-file (expand-file-name  "projectile.cache" savefile-dir))
+    (setq projectile-use-git-grep 1)
+    (projectile-global-mode t))
+#+END_SRC
+
+* Git tools
+
+** magit
+
+magit is an awesome tool to work with git.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package magit
+    :ensure t
+    :bind ("C-x g" . magit-status))
+#+END_SRC
+
+** git-link
+
+Provides git links to github, bitbucket, etc.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package git-link
+    :ensure t
+    :commands (git-link git-link-commit))
+#+END_SRC
+
+* Reading pdf files
+
+pdf-tools transform emacs to an awesome pdf viewer.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package pdf-tools
+    :ensure t
+    :init (pdf-tools-install)
+    :bind (:map pdf-view-mode-map
+                ("M-v" . pdf-view-scroll-down-or-previous-page)
+                ("C-v" . pdf-view-scroll-up-or-next-page)))
+#+END_SRC
+
+* Languages
+
+** python
+
+Python comes pre-installed in emacs, here is my configuration:
+
+#+BEGIN_SRC emacs-lisp
+  (use-package python
+    :mode ("\\.py'" . python-mode)
+    :init (setq python-fill-docstring-style 'django)
+
+    :config
+    (add-hook 'python-mode-hook
+              (lambda ()
+                (setq-local fill-column 79)
+                (turn-on-auto-fill)
+                (superword-mode 1))))
+#+END_SRC
+
+Anaconda is a nice mode to provide completion, documentation, etc.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package anaconda-mode
+    :ensure t
+    :diminish
+    :init
+    (add-hook 'python-mode-hook 'anaconda-mode)
+    ;;(add-hook 'python-mode-hook 'eldoc-mode) ;; provide ElDoc
+    )
+
+  (use-package company-anaconda
+    :ensure t
+    :init
+    (eval-after-load "company" 
+      '(progn
+         (add-to-list 'company-backends 'company-anaconda))))
+#+END_SRC
+
+pyvenv allow to work with virtualenv packages.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package pyvenv
+    :ensure t
+    :commands (pyvenv-workon pyvenv-activate pyvenv-deactivate))
+#+END_SRC
+
+** markdown
+
+#+BEGIN_SRC emacs-lisp
+  (use-package markdown-mode
+    :ensure t
+    :mode ("\\.markdown\\'" "\\.md\\'")
+    :init
+    (add-hook 'markdown-mode-hook
+              (lambda ()
+                (setq fill-column 80)
+                (turn-on-auto-fill))))
+#+END_SRC
+
+** xml/html (web-mode)
+
+#+BEGIN_SRC emacs-lisp
+  (use-package web-mode
+    :ensure t
+    :mode ("\\.html?\\'" "\\.xml\\'" "\\.launch\\'")
+    :init (setq web-mode-markup-indent-offset 2))
+#+END_SRC
+
+** javascript
+
+#+BEGIN_SRC emacs-lisp
+  (use-package js2-mode
+    :ensure t
+    :mode "\\.js\\'"
+    :init
+    (setq js2-basic-offset 4)
+    ;; no warning for trailing commas
+    (setq js2-strict-trailing-comma-warning nil))
+#+END_SRC
+
+Tern is for auto-completion and the like.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package tern
+    :ensure t
+    :diminish tern-mode
+    :init
+    (add-hook 'js2-mode-hook (lambda () (tern-mode t))))
+
+  (use-package company-tern
+    :ensure t)
+#+END_SRC
+
+** coffe script
+
+#+BEGIN_SRC emacs-lisp
+  (use-package coffee-mode
+    :ensure t
+    :init
+    (setq coffee-tab-width 2))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package js2-mode
+    :ensure t
+    :init
+    (setq-default js2-basic-offset 4)
+    ;; no warning for trailing commas
+    (setq-default js2-strict-trailing-comma-warning nil)
+    (add-hook 'js-mode-hook (lambda () (tern-mode t))))
+#+END_SRC
+
+** yaml
+
+#+BEGIN_SRC emacs-lisp
+  (use-package yaml-mode
+    :ensure t)
+#+END_SRC
+
+** cmake files
+
+#+BEGIN_SRC emacs-lisp
+  (use-package cmake-mode
+    :ensure t)
+#+END_SRC
+
+** elixir
+
+#+BEGIN_SRC emacs-lisp
+  (use-package elixir-mode
+    :ensure t)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package alchemist
+    :diminish alchemist-mode
+    :ensure t
+    :init (setq alchemist-key-command-prefix (kbd "C-c C-e")))
+#+END_SRC
+
+* google translate
+
+#+BEGIN_SRC emacs-lisp
+  (use-package google-translate
+    :ensure t
+    :defer t
+    :init
+    (setq google-translate-enable-ido-completion t
+          google-translate-default-source-language "en"
+          google-translate-default-target-language "fr")
+    :commands (google-translate-query-translate
+               google-translate-at-point))
+#+END_SRC
+
+* web browser (w3m and conkeror)
+
+#+BEGIN_SRC emacs-lisp
+  (use-package w3m
+    :commands w3m
+    :ensure t
+    :init
+    (defun browse-url-conkeror (url &rest args)
+      "Open an url in conkeror"
+      (interactive (browse-url-interactive-arg "URL: "))
+      (let ((browse-url-generic-program "conkeror"))
+        (browse-url-generic url)))
+
+    (setq w3m-use-cookies t)
+
+    ;; open url with w3m by default, and conkeror if C-u is used
+    (setq browse-url-browser-function
+          (lambda (url &rest args)
+            (apply
+             (if current-prefix-arg 'browse-url-conkeror
+               'w3m-goto-url-new-session)
+             url args)))
+    ;;change w3m user-agent to android
+    (setq w3m-user-agent "Mozilla/5.0 (Linux; U; Android 2.3.3; zh-tw; HTC_Pyramid Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.")
+
+    (setq w3m-default-display-inline-images t)
+
+    (w3m-lnum-mode 1)
+
+    (add-hook 'w3m-display-hook
+              (lambda (url)
+                (let ((buffer-read-only nil))
+                  (delete-trailing-whitespace)))))
+#+END_SRC
+
+* docker
+
+Docker tramp allow to open files in docker, using the /docker: protocol.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package docker-tramp
+    :ensure t)
+#+END_SRC
+
+And docker allow to manipulate docker images and containers easily.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package docker
+    :ensure t)
+#+END_SRC
+
+* hipchat (jabber)
+
+#+BEGIN_SRC emacs-lisp
+  (use-package jabber
+    :ensure t
+    :defer t
+    :commands jabber-connect
+    :init
+    (setq jabber-account-list `(
+                                ;; steery.io account
+                                ("213996_3664926@chat.hipchat.com"
+                                 (:password . ,jabber_steery_password))))
+    :config
+    (define-jabber-alert echo "Show a message in the echo area"
+      (lambda (msg)
+        (unless (minibuffer-prompt)
+          (message "%s" msg))))
+    )
+#+END_SRC
+
+* pastebin
+
+Here is a custom script to enable posting code snippets easily.
+
+#+BEGIN_SRC emacs-lisp
+  (setq pastebin-url "https://bpaste.net")
+
+  (defcustom pastebin-type-assoc
+    '((actionscript-mode . " actionscript")
+      (ada-mode . "ada")
+      (asm-mode . "asm")
+      (autoconf-mode . "bash")
+      (bibtex-mode . "bibtex")
+      (cmake-mode . "cmake")
+      (c-mode . "c")
+      (c++-mode . "cpp")
+      (cobol-mode . "cobol")
+      (conf-colon-mode . "properties")
+      (conf-javaprop-mode . "properties")
+      (conf-mode . "ini")
+      (conf-space-mode . "properties")
+      (conf-unix-mode . "ini")
+      (conf-windows-mode . "ini")
+      (cperl-mode . "perl")
+      (csharp-mode . "csharp")
+      (css-mode . "css")
+      (delphi-mode . "delphi")
+      (diff-mode . "diff")
+      (magit-diff-mode . "diff")
+      (ebuild-mode . "bash")
+      (eiffel-mode . "eiffel")
+      (emacs-lisp-mode . "common-lisp")
+      (lisp-interaction-mode . "common-lisp")
+      (erlang-mode . "erlang")
+      (erlang-shell-mode . "erlang")
+      (espresso-mode . "javascript")
+      (fortran-mode . "fortran")
+      (glsl-mode . "glsl")
+      (gnuplot-mode . "gnuplot")
+      (graphviz-dot-mode . "dot")
+      (haskell-mode . "haskell")
+      (html-mode . "html")
+      (web-mode . "html")
+      (idl-mode . "idl")
+      (inferior-haskell-mode . "haskell")
+      (inferior-octave-mode . "octave")
+      (inferior-python-mode . "python")
+      (inferior-ruby-mode . "ruby")
+      (java-mode . "java")
+      (js2-mode . "javascript")
+      (jython-mode . "python")
+      (latex-mode . "latex")
+      (lisp-mode . "common-lisp")
+      (lua-mode . "lua")
+      (makefile-mode . "make")
+      (makefile-automake-mode . "make")
+      (makefile-gmake-mode . "make")
+      (makefile-makepp-mode . "make")
+      (makefile-bsdmake-mode . "make")
+      (makefile-imake-mode . "make")
+      (matlab-mode . "matlab")
+      (nxml-mode . "xml")
+      (oberon-mode . "oberon2")
+      (objc-mode . "objc")
+      (ocaml-mode . "ocaml")
+      (octave-mode . "matlab")
+      (pascal-mode . "pascal")
+      (perl-mode . "perl")
+      (php-mode . "php")
+      (plsql-mode . "plsql")
+      (po-mode . "gettext")
+      (prolog-mode . "prolog")
+      (python-2-mode . "python")
+      (python-3-mode . "python3")
+      (python-basic-mode . "python")
+      (python-mode . "python")
+      (ruby-mode . "ruby")
+      (scheme-mode . "scheme")
+      (shell-mode . "bash")
+      (sh-mode . "bash")
+      (smalltalk-mode . "smalltalk")
+      (sql-mode . "sql")
+      (tcl-mode . "tcl")
+      (visual-basic-mode . "vb")
+      (xml-mode . "xml")
+      (yaml-mode . "properties"))
+    "Alist composed of major-mode names and corresponding pastebin highlight formats."
+    :type '(alist :key-type symbol :value-tupe string)
+    :group 'pastebin)
+
+  (defun paste-urlencode-data (fields)
+    (mapconcat #'(lambda (field)
+                   (concat (url-hexify-string (car field))
+                           "="
+                           (url-hexify-string (cdr field))))
+               fields
+               "&"))
+
+  (defun pastebin-post (text format)
+    (let ((url pastebin-url)
+          (url-request-method "POST")
+          (url-http-attempt-keepalives nil)  ;; required due to some bug
+          (url-request-extra-headers
+           '(("Content-Type" . "application/x-www-form-urlencoded")))
+          (url-request-data (format "code=%s&lexer=%s&expiry=%s"
+                                    (url-hexify-string text)
+                                    (url-hexify-string format)
+                                    "1week")))
+      (with-current-buffer (url-retrieve-synchronously url)
+        (goto-char (point-min))
+        (search-forward-regexp "https://bpaste.net/show/[[:alnum:]]+")
+        (let ((url (match-string 0)))
+          (if url
+              (progn
+                (kill-new url)
+                (message "Pastebin URL: %s" url))
+            (error "failed to paste.")))
+        (kill-buffer (current-buffer)))))
+
+  (defun pastebin (start end)
+    "Send the region to the pastebin.com.
+
+  Called interactively pastebin uses the current region for
+  preference for sending... if the mark is NOT set then the entire
+  buffer is sent.
+
+  Argument START is the start of region.
+  Argument END is the end of region."
+
+    (interactive
+     (if (use-region-p)
+         (list (region-beginning) (region-end))
+       (list (point-min) (point-max))))
+    (let ((text (buffer-substring-no-properties start end))
+          (paste-format
+           (or (assoc-default major-mode pastebin-type-assoc) "text")))
+      (pastebin-post text paste-format)))
+#+END_SRC
+
+* media player
+
+Bongo is a great media player!
+
+#+BEGIN_SRC emacs-lisp
+  (use-package bongo
+    :ensure t)
+
+  (use-package volume
+    :ensure t)
+#+END_SRC
+
+* mails
+
+** smtpmail (sending mails)
+
+#+BEGIN_SRC emacs-lisp
+  (use-package smtpmail
+    :ensure t
+    :init
+    (setq user-mail-address        "j.parkouss@gmail.com"
+          user-full-name "Julien Pagès"
+          send-mail-function 'smtpmail-send-it
+          message-send-mail-function 'smtpmail-send-it
+          smtpmail-smtp-server "smtp.gmail.com"
+          smtpmail-smtp-service 587
+          compose-mail-user-agent-warnings nil
+          message-signature user-full-name))
+#+END_SRC
+
+** mu4e (reading mails)
+
+mu4e is an awesome mail tool for emacs. It needs to be installed from outside
+emacs, and also require a tool to sync your mails locally. A good one is mbsync.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package mu4e
+    :init
+    (require 'org-mu4e) ;; allow to capture links to mails
+
+    ;; mu4e
+    (setq
+     ;; general
+     mu4e-maildir "~/Maildir/personal"
+     ;; allow for updating mail using 'U' in the main view:
+     ;; this is mbsync, a LOT better than offlineimap.
+     ;; on arch, pacman -S isync
+     mu4e-get-mail-command (concat "mbsync -qaV -c "
+                                   (expand-file-name "private/.mbsyncrc" my-conf-dir))
+     ;; mu4e-update-interval 300
+
+     mu4e-drafts-folder "/brouillons"
+     mu4e-sent-folder   "/envois"
+     mu4e-trash-folder  "/corbeille"
+
+     ;; don't save message to Sent Messages, Gmail/IMAP takes care of this
+     mu4e-sent-messages-behavior 'delete
+
+     ;; required for mbsync
+     ;;mu4e-change-filenames-when-moving t
+
+     ;; smtp
+     message-send-mail-function 'smtpmail-send-it
+     smtpmail-stream-type 'starttls
+
+     ;; attachment dir
+     mu4e-attachment-dir  "~/Downloads"
+
+     ;; insert sign
+     mu4e-compose-signature "~Julien"
+     mu4e-compose-signature-auto-include 't
+     ;; don't keep message buffers around
+     message-kill-buffer-on-exit t)
+
+    :bind ("C-x m" . mu4e-compose-new))
+#+END_SRC

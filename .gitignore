@@ -1,8 +1,8 @@
+config.el
 anaconda-mode/
 ido.last
 melpa/
 places
-weemacs-modules.el
 erc-logs
 savefile-dir/
 auto-save-list/
