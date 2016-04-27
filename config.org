@@ -1,4 +1,5 @@
 #+TITLE: My Emacs configuration
+#+OPTIONS: toc:3
 
 * Setup
 
