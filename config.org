@@ -276,7 +276,7 @@ buffer.
 
   ;; revert buffers automatically when underlying files are changed externally
   (use-package autorevert
-    :diminish
+    :diminish auto-revert-mode
     :init (global-auto-revert-mode t))
 
   ;; nice ediff config
@@ -285,6 +285,10 @@ buffer.
 
   ;; good setting for M-x re-builder
   (setq reb-re-syntax 'string)
+
+  (use-package windmove
+    :init
+    (windmove-default-keybindings))
 
   ;; enhanced dired mode
   (require 'dired-x)
@@ -418,6 +422,9 @@ Nice visual regexes.
   (use-package
     org :ensure t
     :init
+    ;; Make windmove work in org-mode (do this before loading org):
+    (setq org-replace-disputed-keys t)
+
     (require 'org-protocol)
     (setq org-return-follows-link t)
 
@@ -463,7 +470,9 @@ Nice visual regexes.
                    `(org-level-3 ((t (,@headline ,@variable-tuple :height 1.25))))
                    `(org-level-2 ((t (,@headline ,@variable-tuple :height 1.5))))
                    `(org-level-1 ((t (,@headline ,@variable-tuple :height 1.75))))
-                   `(org-document-title ((t (,@headline ,@variable-tuple :height 1.5 :underline nil)))))))))
+                   `(org-document-title ((t (,@headline ,@variable-tuple :height 1.5 :underline nil))))))))
+    :bind (("C-c c" . org-capture)
+           ("C-c a" . org-agenda)))
 #+END_SRC
 
 org-toc allow to render TOC on github.
