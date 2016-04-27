@@ -1,5 +1,55 @@
 #+TITLE: My Emacs configuration
-#+OPTIONS: toc:3
+
+* Table of contents                                                   :TOC_3:
+ - [[#setup][Setup]]
+   - [[#global-variables][global variables]]
+ - [[#package-initialization][Package initialization]]
+   - [[#melpa][melpa]]
+   - [[#use-package][use-package]]
+ - [[#ui-configuration][UI configuration]]
+   - [[#spacemacs-theme][spacemacs-theme]]
+   - [[#smart-mode-line][smart-mode-line]]
+   - [[#switching-themes][Switching themes]]
+   - [[#highlight-parentheses][Highlight parentheses]]
+   - [[#diminish][diminish]]
+   - [[#volatile-highlights][volatile-highlights]]
+ - [[#working-with-buffers-windows-and-frames][Working with buffers, windows and frames]]
+   - [[#built-in-configuration][built-in configuration]]
+ - [[#common-editing-features][Common editing features]]
+   - [[#smartparens][smartparens]]
+   - [[#browse-kill-ring][Browse kill ring]]
+   - [[#undo-tree][undo-tree]]
+   - [[#flycheck][flycheck]]
+   - [[#flyspell][flyspell]]
+   - [[#company][company]]
+   - [[#whole-line-or-region][whole-line-or-region]]
+   - [[#visual-regexp][visual-regexp]]
+ - [[#org-mode][org mode]]
+ - [[#interactively-do-things][Interactively do things]]
+ - [[#project-management][Project management]]
+   - [[#projectile][Projectile]]
+ - [[#git-tools][Git tools]]
+   - [[#magit][magit]]
+   - [[#git-link][git-link]]
+ - [[#reading-pdf-files][Reading pdf files]]
+ - [[#languages][Languages]]
+   - [[#python][python]]
+   - [[#markdown][markdown]]
+   - [[#xmlhtml-web-mode][xml/html (web-mode)]]
+   - [[#javascript][javascript]]
+   - [[#coffe-script][coffe script]]
+   - [[#yaml][yaml]]
+   - [[#cmake-files][cmake files]]
+   - [[#elixir][elixir]]
+ - [[#google-translate][google translate]]
+ - [[#web-browser-w3m-and-conkeror][web browser (w3m and conkeror)]]
+ - [[#docker][docker]]
+ - [[#hipchat-jabber][hipchat (jabber)]]
+ - [[#pastebin][pastebin]]
+ - [[#media-player][media player]]
+ - [[#mails][mails]]
+   - [[#smtpmail-sending-mails][smtpmail (sending mails)]]
+   - [[#mu4e-reading-mails][mu4e (reading mails)]]
 
 * Setup
 
@@ -416,11 +466,19 @@ Nice visual regexes.
                    `(org-document-title ((t (,@headline ,@variable-tuple :height 1.5 :underline nil)))))))))
 #+END_SRC
 
+org-toc allow to render TOC on github.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package toc-org
+    :ensure t
+    :init (add-hook 'org-mode-hook 'toc-org-enable))
+#+END_SRC
+
 * Interactively do things
 
 #+BEGIN_SRC emacs-lisp
-  (use-package
-    ido :ensure t
+  (use-package ido
+    :ensure t
     :init
     (ido-mode 1)
     (ido-everywhere 1)
