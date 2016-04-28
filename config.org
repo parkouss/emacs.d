@@ -255,8 +255,11 @@ buffer.
            ("C-x C-b" . ibuffer-other-window)
            ("C-c b" . create-temp-buffer)))
   (use-package windmove
-    :init
-    (windmove-default-keybindings))
+    :init (windmove-default-keybindings)
+    :bind (("C-c w b" .  windmove-left)
+           ("C-c w f" .  windmove-right)
+           ("C-c w p" .  windmove-up)
+           ("C-c w n" .  windmove-down)))
 #+END_SRC
 
 * Common editing features
