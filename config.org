@@ -254,6 +254,9 @@ buffer.
            ;; open ibuffer menu in other window, and go in there.
            ("C-x C-b" . ibuffer-other-window)
            ("C-c b" . create-temp-buffer)))
+  (use-package windmove
+    :init
+    (windmove-default-keybindings))
 #+END_SRC
 
 * Common editing features
@@ -285,10 +288,6 @@ buffer.
 
   ;; good setting for M-x re-builder
   (setq reb-re-syntax 'string)
-
-  (use-package windmove
-    :init
-    (windmove-default-keybindings))
 
   ;; enhanced dired mode
   (require 'dired-x)
