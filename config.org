@@ -306,7 +306,9 @@ I like smartparens to auto-complete opened parens and other great things:
                 ("C-)" . sp-forward-slurp-sexp)
                 ("C-M-(" . sp-backward-barf-sexp)
                 ("C-M-)" . sp-forward-barf-sexp))
-    :init (add-hook 'prog-mode-hook 'smartparens-mode))
+    :init
+    (require 'smartparens-config) ;; default config
+    (add-hook 'prog-mode-hook 'smartparens-mode))
 
 
 #+END_SRC
