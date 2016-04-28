@@ -428,6 +428,7 @@ Nice visual regexes.
 
     (require 'org-protocol)
     (setq org-return-follows-link t)
+    (setq org-src-fontify-natively t)
 
     (setq org-default-notes-file (expand-file-name "notes.org"
                                                    (expand-file-name "agenda" my-conf-dir)))
