@@ -1023,5 +1023,5 @@ emacs, and also require a tool to sync your mails locally. A good one is mbsync.
      ;; quit without asking
      mu4e-confirm-quit nil)
 
-    :bind ("C-x m" . mu4e-compose-new))
+    :bind ("C-x m" . mu4e))
 #+END_SRC
