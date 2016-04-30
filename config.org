@@ -1019,7 +1019,9 @@ emacs, and also require a tool to sync your mails locally. A good one is mbsync.
      mu4e-compose-signature "~Julien"
      mu4e-compose-signature-auto-include 't
      ;; don't keep message buffers around
-     message-kill-buffer-on-exit t)
+     message-kill-buffer-on-exit t
+     ;; quit without asking
+     mu4e-confirm-quit nil)
 
     :bind ("C-x m" . mu4e-compose-new))
 #+END_SRC
