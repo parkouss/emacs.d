@@ -25,6 +25,7 @@
    - [[#whole-line-or-region][whole-line-or-region]]
    - [[#visual-regexp][visual-regexp]]
    - [[#comment-dwim-2][comment-dwim-2]]
+   - [[#expand-region][expand-region]]
  - [[#org-mode][org mode]]
  - [[#interactively-do-things][Interactively do things]]
  - [[#project-management][Project management]]
@@ -430,6 +431,16 @@ Extends the built-in comment-dwim.
     :ensure t
     :bind (("M-;" . comment-dwim-2))
     :init (setq comment-dwim-2--inline-comment-behavior 'reindent-comment))
+#+END_SRC
+
+** expand-region
+
+Easy selection with C-=.
+
+#+BEGIN_SRC emacs-lisp
+(use-package expand-region
+    :ensure t
+    :bind ("C-=" . er/expand-region))
 #+END_SRC
 
 * org mode
