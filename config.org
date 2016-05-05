@@ -630,7 +630,7 @@ Anaconda is a nice mode to provide completion, documentation, etc.
 #+BEGIN_SRC emacs-lisp
   (use-package anaconda-mode
     :ensure t
-    :diminish
+    :diminish anaconda-mode
     :init
     (add-hook 'python-mode-hook 'anaconda-mode)
     ;;(add-hook 'python-mode-hook 'eldoc-mode) ;; provide ElDoc
