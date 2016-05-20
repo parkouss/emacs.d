@@ -248,7 +248,10 @@ buffer.
       (let ((buffer-file-name name))
         (set-auto-mode t)))
 
-    :bind (("C-c en" . switch-to-next-buffer) ;; for Edit Next
+    :bind (("M-n" . switch-to-next-buffer) ;; for Edit Next
+           ("M-p" . switch-to-prev-buffer) ;;for Edit Previous
+           ;; those are less convenient, but works everywhere.
+           ("C-c en" . switch-to-next-buffer) ;; for Edit Next
            ("C-c ep" . switch-to-prev-buffer) ;;for Edit Previous
            ;; full screen is <f11> by default, but I do not see desktop
            ;; tooltips with gnome in this case - so here is a workaround
