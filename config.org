@@ -605,6 +605,7 @@ pdf-tools transform emacs to an awesome pdf viewer.
 
 #+BEGIN_SRC emacs-lisp
   (use-package pdf-tools
+    :if (not (module-disabled? 'pdf))
     :ensure t
     :init (pdf-tools-install)
     :bind (:map pdf-view-mode-map
@@ -792,6 +793,7 @@ Tern is for auto-completion and the like.
 
 #+BEGIN_SRC emacs-lisp
   (use-package w3m
+    :if (not (module-disabled? 'browsers))
     :commands w3m
     :ensure t
     :init
@@ -1004,9 +1006,11 @@ Bongo is a great media player!
 
 #+BEGIN_SRC emacs-lisp
   (use-package bongo
+    :if (not (module-disabled? 'media-player))
     :ensure t)
 
   (use-package volume
+    :if (not (module-disabled? 'media-player))
     :ensure t)
 #+END_SRC
 
@@ -1035,6 +1039,7 @@ emacs, and also require a tool to sync your mails locally. A good one is mbsync.
 
 #+BEGIN_SRC emacs-lisp
   (use-package mu4e
+    :if (not (module-disabled? 'mails))
     :init
     (require 'org-mu4e) ;; allow to capture links to mails
 
