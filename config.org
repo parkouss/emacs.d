@@ -760,7 +760,9 @@ Tern is for auto-completion and the like.
     :ensure t
     :init
     (add-hook 'c++-mode-hook 'irony-mode)
-    (add-hook 'c-mode-hook 'irony-mode))
+    (add-hook 'c-mode-hook 'irony-mode)
+    ;; irony does not find the database without that...
+    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
 
   (use-package company-irony
     :ensure t
