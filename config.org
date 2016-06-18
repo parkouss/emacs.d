@@ -382,7 +382,8 @@ Flyspell check my typos in text and comments. :)
         (ispell-change-dictionary change)
         ))
 
-    :bind ("<f8>" . switch-ispell-dictionary))
+    :bind (("<f8>" . switch-ispell-dictionary)
+           ("M-ç" . ispell-word)))
 #+END_SRC
 
 ** company
