@@ -301,6 +301,9 @@ buffer.
 
   ;; enhanced dired mode
   (require 'dired-x)
+
+  ;; follow the compilation buffer
+  (setq compilation-scroll-output 'first-error)
 #+END_SRC
 
 ** smartparens
