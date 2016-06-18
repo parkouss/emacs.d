@@ -12,6 +12,8 @@ My emacs configuration, written in org mode. See it
 
 ```bash
 git clone https://github.com/parkouss/emacs.d ~/.emacs.d
+git submodule init
+git submodule update
 ```
 
 ## Launch emacs
