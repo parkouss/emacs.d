@@ -43,6 +43,7 @@
    - [[#yaml][yaml]]
    - [[#cmake-files][cmake files]]
    - [[#elixir][elixir]]
+   - [[#c][c++]]
  - [[#google-translate][google translate]]
  - [[#web-browser-w3m-and-conkeror][web browser (w3m and conkeror)]]
  - [[#docker][docker]]
@@ -748,6 +749,28 @@ Tern is for auto-completion and the like.
     :diminish alchemist-mode
     :ensure t
     :init (setq alchemist-key-command-prefix (kbd "C-c C-e")))
+#+END_SRC
+
+** c++
+
+#+BEGIN_SRC emacs-lisp
+  (use-package irony
+    :ensure t
+    :init
+    (add-hook 'c++-mode-hook 'irony-mode)
+    (add-hook 'c-mode-hook 'irony-mode))
+
+  (use-package company-irony
+    :ensure t
+    :init
+    (eval-after-load 'company
+      '(add-to-list 'company-backends 'company-irony)))
+
+  (use-package flycheck-irony
+    :ensure t
+    :init
+    (eval-after-load 'flycheck
+      '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup)))
 #+END_SRC
 
 * google translate
