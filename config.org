@@ -851,16 +851,16 @@ And docker allow to manipulate docker images and containers easily.
     :defer t
     :commands jabber-connect
     :init
-    (setq jabber-account-list `(
-                                ;; steery.io account
-                                ("213996_3664926@chat.hipchat.com"
-                                 (:password . ,jabber_steery_password))))
+    (setq jabber-account-list (if has-secrets
+                                  ;; steery.io account
+                                  `(("213996_3664926@chat.hipchat.com"
+                                     (:password . ,jabber_steery_password)))
+                                `(("213996_3664926@chat.hipchat.com"))))
     :config
     (define-jabber-alert echo "Show a message in the echo area"
       (lambda (msg)
         (unless (minibuffer-prompt)
-          (message "%s" msg))))
-    )
+          (message "%s" msg)))))
 #+END_SRC
 
 * pastebin

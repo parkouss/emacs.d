@@ -12,6 +12,7 @@ My emacs configuration, written in org mode. See it
 
 ```bash
 git clone https://github.com/parkouss/emacs.d ~/.emacs.d
+# for my private stuff only
 git submodule init
 git submodule update
 ```

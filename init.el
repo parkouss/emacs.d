@@ -16,8 +16,14 @@
   (cdr (assoc module modules-disabled)))
 
 ;; secrets
-(load (expand-file-name "passwd.el"
-                        (expand-file-name "private" my-conf-dir)))
+(setq has-secrets nil)
+(let ((secret-file (expand-file-name
+                    "passwd.el"
+                    (expand-file-name "private" my-conf-dir))))
+  (if (file-exists-p secret-file)
+      (progn
+        (setq has-secrets nil)
+        (load secret-file))))
 
 
 (org-babel-load-file (expand-file-name "config.org" my-conf-dir))
