@@ -810,12 +810,12 @@ Tern is for auto-completion and the like.
 
     (setq w3m-use-cookies t)
 
-    ;; open url with w3m by default, and conkeror if C-u is used
+    ;; open url with conkeror by default, and w3m if C-u is used
     (setq browse-url-browser-function
           (lambda (url &rest args)
             (apply
-             (if current-prefix-arg 'browse-url-conkeror
-               'w3m-goto-url-new-session)
+             (if current-prefix-arg 'w3m-goto-url-new-session
+               'browse-url-conkeror)
              url args)))
     ;;change w3m user-agent to android
     (setq w3m-user-agent "Mozilla/5.0 (Linux; U; Android 2.3.3; zh-tw; HTC_Pyramid Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.")
