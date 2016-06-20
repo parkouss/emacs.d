@@ -22,7 +22,7 @@
                     (expand-file-name "private" my-conf-dir))))
   (if (file-exists-p secret-file)
       (progn
-        (setq has-secrets nil)
+        (setq has-secrets t)
         (load secret-file))))
 
 
