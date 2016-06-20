@@ -401,7 +401,7 @@ A completion framework.
     (setq company-require-match nil)  ;; allow to type whatever I want to during completion
     (setq company-dabbrev-downcase nil)  ;; try to respect case completion
     (global-company-mode)
-    :bind (("C-$" . company-complete)
+    :bind (("C-ç" . company-complete)
            :map company-active-map
            ("C-n" . company-select-next)
            ("C-p" . company-select-previous)
