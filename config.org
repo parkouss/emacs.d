@@ -590,7 +590,11 @@ magit is an awesome tool to work with git.
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :ensure t
-    :bind ("C-x g" . magit-status))
+    :bind ("C-x g" . magit-status)
+    :init
+    (setq magit-fetch-arguments '("--prune"))
+    (setq magit-rebase-arguments '("--preserve-merges"))
+    (setq magit-tag-arguments '("--annotate")))
 #+END_SRC
 
 ** git-link
