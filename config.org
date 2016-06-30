@@ -305,6 +305,10 @@ buffer.
 
   ;; follow the compilation buffer
   (setq compilation-scroll-output 'first-error)
+
+  ;; recenter on next error (use M-g n and M-g p) to navigate through errors.
+  ;; this should work for everything like occur, grep, flychek, ...
+  (setq next-error-recenter '(4))
 #+END_SRC
 
 ** smartparens
