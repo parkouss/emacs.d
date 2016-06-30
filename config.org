@@ -44,6 +44,7 @@
    - [[#cmake-files][cmake files]]
    - [[#elixir][elixir]]
    - [[#c][c++]]
+   - [[#rust][rust]]
  - [[#google-translate][google translate]]
  - [[#web-browser-w3m-and-conkeror][web browser (w3m and conkeror)]]
  - [[#docker][docker]]
@@ -778,6 +779,29 @@ Tern is for auto-completion and the like.
     :init
     (eval-after-load 'flycheck
       '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup)))
+#+END_SRC
+
+** rust
+
+
+#+BEGIN_SRC emacs-lisp
+  (use-package rust-mode
+    :ensure t)
+
+  ;; racer is for code completion and navigation
+  (use-package racer
+    :ensure t
+    :init
+    (setq racer-cmd (expand-file-name "~/.cargo/bin/racer"))
+    (setq racer-rust-src-path (expand-file-name "~/.rust/src"))
+    (add-hook 'rust-mode-hook #'racer-mode)
+    (add-hook 'racer-mode-hook #'eldoc-mode)
+    (add-hook 'racer-mode-hook #'company-mode))
+
+  (use-package flycheck-rust
+    :ensure t
+    :init
+    (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 #+END_SRC
 
 * google translate
