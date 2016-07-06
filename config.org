@@ -479,7 +479,16 @@ Easy selection with C-=.
 
     (setq org-tag-alist '((:startgroup . nil)
                           ("@work" . ?w) ("@home" . ?h)
-                          (:endgroup . nil))))
+                          (:endgroup . nil)))
+
+    (define-key org-read-date-minibuffer-local-map (kbd "C-f")
+      (lambda () (interactive) (org-eval-in-calendar '(calendar-forward-day 1))))
+    (define-key org-read-date-minibuffer-local-map (kbd "C-b")
+      (lambda () (interactive) (org-eval-in-calendar '(calendar-backward-day 1))))
+    (define-key org-read-date-minibuffer-local-map (kbd "C-n")
+      (lambda () (interactive) (org-eval-in-calendar '(calendar-forward-week 1))))
+    (define-key org-read-date-minibuffer-local-map (kbd "C-p")
+      (lambda () (interactive) (org-eval-in-calendar '(calendar-backward-week 1)))))
 
   (use-package org-bullets
     :ensure t
