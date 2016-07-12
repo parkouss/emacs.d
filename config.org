@@ -45,6 +45,7 @@
    - [[#elixir][elixir]]
    - [[#c][c++]]
    - [[#rust][rust]]
+   - [[#lisp][lisp]]
  - [[#google-translate][google translate]]
  - [[#web-browser-w3m-and-conkeror][web browser (w3m and conkeror)]]
  - [[#docker][docker]]
@@ -819,6 +820,15 @@ Tern is for auto-completion and the like.
     :ensure t
     :init
     (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+#+END_SRC
+
+** lisp
+#+BEGIN_SRC emacs-lisp
+  (use-package slime
+    :ensure t
+    :init
+    (setq inferior-lisp-program "/usr/bin/sbcl")
+    (setq slime-contribs '(slime-fancy)))
 #+END_SRC
 
 * google translate
