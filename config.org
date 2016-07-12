@@ -468,35 +468,60 @@ Hints:
 - M-r instead of C-r for shell's reverse backward history
 
 #+BEGIN_SRC emacs-lisp
-    (use-package multi-term
-      :ensure t
-      :commands (multi-term-dedicated-open-select global-term)
-      :bind (("C-c t t" . multi-term)
-             ("C-c t n" . multi-term-next)
-             ("C-c t p" . multi-term-prev)
-             ("C-c t d" . multi-term-dedicated-open-select)
-             ("C-c t g" . global-term))
-      :init
-      (setq multi-term-program "/usr/bin/zsh")
-      (setq multi-term-dedicated-select-after-open-p t)
-      ;; the original list, but without the ESC key since I never use it
-      ;; in emacs (meaning that it will be sent to the terminal)
-      (setq term-unbind-key-list '("C-z" "C-x" "C-c" "C-h" "C-y"))
-      :config
-      (defun multi-term-dedicated-open-select ()
-        "open then select the dedicated term"
-        (interactive)
-        (if (buffer-live-p multi-term-dedicated-buffer)
-            (multi-term-dedicated-select)
-          (multi-term-dedicated-open)))
-      (defun global-term ()
-        "Open or raise a global terminal"
-        (interactive)
-        (let ((gbuffer (get-buffer "*global-terminal*")))
-          (if gbuffer
-              (switch-to-buffer gbuffer)
-            (multi-term)
-            (rename-buffer "*global-terminal*")))))
+  (use-package multi-term
+    :ensure t
+    :commands (multi-term-dedicated-open-select global-term)
+    :bind (("C-c t t" . multi-term)
+           ("C-c t n" . multi-term-next)
+           ("C-c t p" . multi-term-prev)
+           ("C-c t d" . multi-term-dedicated-open-select)
+           ("C-c t g" . global-term))
+    :init
+    (setq multi-term-program "/usr/bin/zsh")
+    (setq multi-term-dedicated-select-after-open-p t)
+    ;; this list contains binding that are interpreted by emacs, not sent
+    ;; in the underlying shell.
+    (setq term-unbind-key-list '("C-x" "C-c" "C-h" "C-y" "M-x"))
+    :config
+    (defun multi-term-dedicated-open-select ()
+      "open then select the dedicated term"
+      (interactive)
+      (if (buffer-live-p multi-term-dedicated-buffer)
+          (multi-term-dedicated-select)
+        (multi-term-dedicated-open)))
+    (defun global-term ()
+      "Open or raise a global terminal"
+      (interactive)
+      (let ((gbuffer (get-buffer "*global-terminal*")))
+        (if gbuffer
+            (switch-to-buffer gbuffer)
+          (multi-term)
+          (rename-buffer "*global-terminal*"))))
+
+    ;; automatically switch the line or char mode.
+    ;;
+    ;; This is a bit fragile, but still usefull!
+    (setq my-term-current-line -1)
+    (defun my-term-auto-switch-mode ()
+      "auto switch mode line/char based on the position in the buffer.
+  Last line(s) - after the prompt - are in char mode, otherwise in line mode."
+      (let ((n (line-number-at-pos))
+            (total (count-lines (point-min) (point-max))))
+        ;; check if the line has changed - this help when for example, the
+        ;; completion is shown in the shell - and in that case we don't want
+        ;; to switch to line mode;
+        (if (/= my-term-current-line n)
+            (progn
+              (setq my-term-current-line n)
+              (if (< n total)
+                  (term-line-mode)
+                (term-char-mode))))))
+
+    (add-hook 'term-mode-hook
+              (lambda ()
+                ;; add a post-command-hook local to term mode
+                (add-hook 'post-command-hook
+                          'my-term-auto-switch-mode nil t))))
 #+END_SRC
 
 * org mode
