@@ -26,6 +26,7 @@
    - [[#visual-regexp][visual-regexp]]
    - [[#comment-dwim-2][comment-dwim-2]]
    - [[#expand-region][expand-region]]
+ - [[#terminal][Terminal]]
  - [[#org-mode][org mode]]
  - [[#interactively-do-things][Interactively do things]]
  - [[#project-management][Project management]]
@@ -456,6 +457,46 @@ Easy selection with C-=.
 (use-package expand-region
     :ensure t
     :bind ("C-=" . er/expand-region))
+#+END_SRC
+
+* Terminal
+
+multi-term is a pretty decent terminal!
+
+Hints:
+- C-c C-c to send a C-c
+- M-r instead of C-r for shell's reverse backward history
+
+#+BEGIN_SRC emacs-lisp
+    (use-package multi-term
+      :ensure t
+      :commands (multi-term-dedicated-open-select global-term)
+      :bind (("C-c t t" . multi-term)
+             ("C-c t n" . multi-term-next)
+             ("C-c t p" . multi-term-prev)
+             ("C-c t d" . multi-term-dedicated-open-select)
+             ("C-c t g" . global-term))
+      :init
+      (setq multi-term-program "/usr/bin/zsh")
+      (setq multi-term-dedicated-select-after-open-p t)
+      ;; the original list, but without the ESC key since I never use it
+      ;; in emacs (meaning that it will be sent to the terminal)
+      (setq term-unbind-key-list '("C-z" "C-x" "C-c" "C-h" "C-y"))
+      :config
+      (defun multi-term-dedicated-open-select ()
+        "open then select the dedicated term"
+        (interactive)
+        (if (buffer-live-p multi-term-dedicated-buffer)
+            (multi-term-dedicated-select)
+          (multi-term-dedicated-open)))
+      (defun global-term ()
+        "Open or raise a global terminal"
+        (interactive)
+        (let ((gbuffer (get-buffer "*global-terminal*")))
+          (if gbuffer
+              (switch-to-buffer gbuffer)
+            (multi-term)
+            (rename-buffer "*global-terminal*")))))
 #+END_SRC
 
 * org mode
