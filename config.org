@@ -318,27 +318,27 @@ buffer.
 I like smartparens to auto-complete opened parens and other great things:
 
 #+BEGIN_SRC emacs-lisp
-    (use-package smartparens
-      :ensure t
-      :diminish smartparens-mode
-      :bind (:map smartparens-mode-map
-                  ("C-(" . sp-backward-slurp-sexp)
-                  ("C-)" . sp-forward-slurp-sexp)
-                  ("C-M-(" . sp-backward-barf-sexp)
-                  ("C-M-)" . sp-forward-barf-sexp))
-      :init
-      (require 'smartparens-config) ;; default config
-      ;;; C++
-      (defun my-create-newline-and-enter-sexp (&rest _ignored)
-        "Open a new brace or bracket expression, with relevant newlines and indent. "
-        (backward-up-list)
-        (newline-and-indent)
-        (forward-char)
-        (newline-and-indent))
-      (sp-local-pair 'c++-mode "{" nil :post-handlers '((my-create-newline-and-enter-sexp "RET"))))
-      (sp-local-pair 'c++-mode "/*" "*/" :post-handlers '((" | " "SPC")
-                                                          ("* ||\n[i]" "RET")))
-      (add-hook 'prog-mode-hook 'smartparens-mode))
+  (use-package smartparens
+    :ensure t
+    :diminish smartparens-mode
+    :bind (:map smartparens-mode-map
+                ("C-(" . sp-backward-slurp-sexp)
+                ("C-)" . sp-forward-slurp-sexp)
+                ("C-M-(" . sp-backward-barf-sexp)
+                ("C-M-)" . sp-forward-barf-sexp))
+    :init
+    (require 'smartparens-config) ;; default config
+    ;;; C++
+    (defun my-create-newline-and-enter-sexp (&rest _ignored)
+      "Open a new brace or bracket expression, with relevant newlines and indent. "
+      (backward-up-list)
+      (newline-and-indent)
+      (forward-char)
+      (newline-and-indent))
+    (sp-local-pair 'c++-mode "{" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
+    (sp-local-pair 'c++-mode "/*" "*/" :post-handlers '((" | " "SPC")
+                                                        ("* ||\n[i]" "RET")))
+    (add-hook 'prog-mode-hook 'smartparens-mode))
 
 
 #+END_SRC
