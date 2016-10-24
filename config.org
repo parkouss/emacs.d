@@ -857,7 +857,7 @@ Tern is for auto-completion and the like.
   (use-package c++
     :init
     (defun my-c-init-hook ()
-      (setq c-default-style "ellemtel"
+      (setq c-default-style "stroustup"
             c-basic-offset 2))
     (add-hook 'c-mode-common-hook #'my-c-init-hook))
 #+END_SRC
