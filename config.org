@@ -26,6 +26,7 @@
    - [[#visual-regexp][visual-regexp]]
    - [[#comment-dwim-2][comment-dwim-2]]
    - [[#expand-region][expand-region]]
+   - [[#abbrev][abbrev]]
  - [[#terminal][Terminal]]
  - [[#org-mode][org mode]]
  - [[#interactively-do-things][Interactively do things]]
@@ -467,6 +468,16 @@ Easy selection with C-=.
 (use-package expand-region
     :ensure t
     :bind ("C-=" . er/expand-region))
+#+END_SRC
+
+** abbrev
+
+#+BEGIN_SRC emacs-lisp
+  (use-package abbrev
+    :init
+    (setq abbrev-file-name (expand-file-name "abbrev_defs" my-conf-dir)
+          save-abbrevs t)
+    (setq-default abbrev-mode t))
 #+END_SRC
 
 * Terminal
