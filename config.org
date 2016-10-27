@@ -329,16 +329,6 @@ I like smartparens to auto-complete opened parens and other great things:
                 ("C-M-)" . sp-forward-barf-sexp))
     :init
     (require 'smartparens-config) ;; default config
-    ;;; C++
-    (defun my-create-newline-and-enter-sexp (&rest _ignored)
-      "Open a new brace or bracket expression, with relevant newlines and indent. "
-      (backward-up-list)
-      (newline-and-indent)
-      (forward-char)
-      (newline-and-indent))
-    (sp-local-pair 'c++-mode "{" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
-    (sp-local-pair 'c++-mode "/*" "*/" :post-handlers '((" | " "SPC")
-                                                        ("* ||\n[i]" "RET")))
     (add-hook 'prog-mode-hook 'smartparens-mode))
 
 
@@ -865,12 +855,28 @@ Tern is for auto-completion and the like.
 ** c++
 
 #+BEGIN_SRC emacs-lisp
-  (use-package c++
-    :init
-    (defun my-c-init-hook ()
-      (setq c-default-style "stroustup"
-            c-basic-offset 2))
-    (add-hook 'c-mode-common-hook #'my-c-init-hook))
+  (defconst my-cc-style
+    '("bsd"
+      (c-offsets-alist . ((innamespace . [0])))))
+  (c-add-style "my-cc-style" my-cc-style)
+
+  (defun my-create-newline-and-enter-sexp (&rest _ignored)
+    "Open a new brace or bracket expression, with relevant newlines and indent. "
+    (backward-up-list)
+    (newline-and-indent)
+    (forward-char)
+    (newline-and-indent))
+
+  (defun my-c-init-hook ()
+    (c-set-style "my-cc-style")
+    (setq c-basic-offset 2)
+    (sp-local-pair 'c++-mode "{" nil
+                   :post-handlers '((my-create-newline-and-enter-sexp "RET")))
+    (sp-local-pair 'c++-mode "/*" "*/"
+                   :post-handlers '((" | " "SPC")
+                                    ("* ||\n[i]" "RET"))))
+
+  (add-hook 'c-mode-common-hook 'my-c-init-hook)
 #+END_SRC
 
 rtags must be installed manually, see
@@ -884,6 +890,7 @@ https://github.com/Andersbakken/rtags.
     (setq-default c-basic-offset 2)
     (push 'company-rtags company-backends)
 
+    (require 'flycheck-rtags)
     (defun my-flycheck-rtags-setup ()
       (flycheck-select-checker 'rtags)
       (setq-local flycheck-highlighting-mode nil) ;; RTags creates more accurate overlays.
