@@ -276,6 +276,9 @@ buffer.
 * Common editing features
 
 #+BEGIN_SRC emacs-lisp
+  ;; I don't like emacs writing to my init file
+  (setq custom-file
+        (expand-file-name "emacs_custom_init.el" temporary-file-directory))
   ;; don't use tabs to indent
   (setq-default indent-tabs-mode nil)
 
