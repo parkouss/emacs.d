@@ -27,6 +27,7 @@
    - [[#comment-dwim-2][comment-dwim-2]]
    - [[#expand-region][expand-region]]
    - [[#abbrev][abbrev]]
+   - [[#edit-indirect][edit-indirect]]
  - [[#terminal][Terminal]]
  - [[#org-mode][org mode]]
  - [[#interactively-do-things][Interactively do things]]
@@ -471,6 +472,31 @@ Easy selection with C-=.
     (setq abbrev-file-name (expand-file-name "abbrev_defs" my-conf-dir)
           save-abbrevs t)
     (setq-default abbrev-mode t))
+#+END_SRC
+
+** edit-indirect
+
+Allow to edit a region of a buffer in another buffer, and to set
+another major mode for it. Cool for e.g. editing tables in source code
+comments, as I can select the comment and switch to org mode for that.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package edit-indirect
+    :ensure t
+    :commands (edit-indirect-region-mode)
+    :bind ("C-c i" . edit-indirect-region-mode)
+    :init
+    (defun edit-indirect-region-mode (beg end mode)
+      (interactive
+       (if (or (use-region-p) (not transient-mark-mode))
+           (prog1 (list (region-beginning)
+                        (region-end)
+                        (completing-read "Choose the major mode: "
+                                         (delete-dups (mapcar 'cdr auto-mode-alist))))
+             (deactivate-mark))
+         (user-error "No region")))
+      (with-current-buffer (edit-indirect-region beg end t)
+        (funcall (intern mode)))))
 #+END_SRC
 
 * Terminal
