@@ -17,7 +17,6 @@
    - [[#built-in-configuration][built-in configuration]]
  - [[#common-editing-features][Common editing features]]
    - [[#smartparens][smartparens]]
-   - [[#browse-kill-ring][Browse kill ring]]
    - [[#undo-tree][undo-tree]]
    - [[#flycheck][flycheck]]
    - [[#flyspell][flyspell]]
@@ -339,17 +338,6 @@ I like smartparens to auto-complete opened parens and other great things:
 #+END_SRC
 
 
-** Browse kill ring
-
-Use M-y to display a buffer of the kill ring, so I can easily find a previously
-copied text.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package browse-kill-ring
-    :ensure t
-    :init (browse-kill-ring-default-keybindings))
-#+END_SRC
-
 ** undo-tree
 
 A nice undo redo for emacs. C-x u for a visible buffer!
@@ -644,45 +632,25 @@ org-toc allow to render TOC on github.
 * Interactively do things
 
 #+BEGIN_SRC emacs-lisp
-  (use-package ido
+  (use-package ivy
     :ensure t
     :init
-    (ido-mode 1)
-    (ido-everywhere 1)
+    (setq ivy-use-virtual-buffers t)
+    (setq ivy-count-format "(%d/%d) ")
+    (ivy-mode 1)
+    :bind ("C-x b" . ivy-switch-buffer))
 
-    :config
-    (setq ido-enable-prefix nil
-          ido-enable-flex-matching t
-          ido-create-new-buffer 'always
-          ido-max-prospects 10
-          ido-save-directory-list-file (expand-file-name "ido.hist" savefile-dir)
-          ido-default-file-method 'selected-window
-          ido-auto-merge-work-directories-length -1
-          ido-vertical-define-keys 'C-n-C-p-up-down-left-right))
-
-  (use-package flx-ido
+  (use-package swiper
     :ensure t
-    :init (flx-ido-mode +1)
-    :config
-    ;; disable ido faces to see flx highlights
-    (setq ido-use-faces nil))
+    :bind ("C-s" . swiper))
 
-  (use-package ido-ubiquitous
+  (use-package counsel
     :ensure t
-    :init (ido-ubiquitous-mode 1))
-
-  (use-package ido-vertical-mode
-    :ensure t
-    :init (ido-vertical-mode 1))
-
-  (use-package smex
-    :ensure t
-    :init
-    (setq smex-save-file (expand-file-name ".smex-items" savefile-dir))
-    (smex-initialize)
-
-    :bind ("M-x" . smex)
-    )
+    :bind (("M-x" . counsel-M-x)
+           ("C-x C-f" . counsel-find-file)
+           ("C-h v" . counsel-describe-variable)
+           ("C-h f" . counsel-describe-function)
+           ("M-y" . counsel-yank-pop)))
 #+END_SRC
 
 * Project management
