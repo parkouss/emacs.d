@@ -315,6 +315,9 @@ buffer.
   ;; recenter on next error (use M-g n and M-g p) to navigate through errors.
   ;; this should work for everything like occur, grep, flychek, ...
   (setq next-error-recenter '(4))
+
+  ;; use find utility
+  (global-set-key (kbd "C-c f") 'find-name-dired)
 #+END_SRC
 
 ** smartparens
