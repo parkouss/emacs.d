@@ -645,7 +645,7 @@ org-toc allow to render TOC on github.
 
   (use-package swiper
     :ensure t
-    :bind ("C-s" . swiper))
+    :bind ("C-c s" . swiper))
 
   (use-package counsel
     :ensure t
