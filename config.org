@@ -1009,6 +1009,7 @@ And docker allow to manipulate docker images and containers easily.
     :ensure t
     :commands (my-erc-kill-buffers bitlbee-connect)
     :init
+    (add-to-list 'erc-modules 'notifications)
     (defun bitlbee-connect ()
     (interactive)
     (erc :server "127.0.0.1"
